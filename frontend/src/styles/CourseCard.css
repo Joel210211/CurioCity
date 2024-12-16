@@ -1,0 +1,32 @@
+.course-card {
+    transition: transform 0.3s ease;
+    height: 100%;
+  }
+  
+  .course-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-media {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-content {
+    padding: 1.5rem;
+  }
+  
+  .card-title {
+    color: #1976d2;
+    margin-bottom: 1rem;
+  }
+  
+  .card-description {
+    color: #666;
+    margin-bottom: 1rem;
+  }
+  
+  .card-button {
+    width: 100%;
+    margin-top: 1rem !important;
+  }

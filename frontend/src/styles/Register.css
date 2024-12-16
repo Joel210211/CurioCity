@@ -1,0 +1,100 @@
+.register-container {
+    padding: 2rem 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #f5f5f5;
+  }
+  
+  .register-paper {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+  
+  .register-title {
+    text-align: center;
+    color: #1976d2;
+    margin-bottom: 2rem !important;
+    font-weight: 600 !important;
+  }
+  
+  .register-form {
+    margin-top: 2rem;
+  }
+  
+  .form-field {
+    margin-bottom: 1rem !important;
+  }
+  
+  .form-field .MuiInputLabel-root {
+    color: #666;
+  }
+  
+  .form-field .MuiOutlinedInput-root {
+    background-color: #fff;
+  }
+  
+  .form-field .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: #1976d2;
+  }
+  
+  .error-alert {
+    margin-bottom: 2rem;
+  }
+  
+  .submit-button {
+    margin-top: 2rem !important;
+    padding: 0.8rem !important;
+    font-size: 1.1rem !important;
+    text-transform: none !important;
+    background-color: #1976d2 !important;
+  }
+  
+  .submit-button:hover {
+    background-color: #1565c0 !important;
+  }
+  
+  .additional-links {
+    margin-top: 2rem;
+    text-align: center;
+  }
+  
+  .login-link {
+    color: #1976d2;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .login-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Estilos para los campos colapsables */
+  .MuiCollapse-root {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Estilos para el texto de ayuda */
+  .MuiFormHelperText-root {
+    color: #666;
+    margin-top: 0.5rem !important;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 600px) {
+    .register-paper {
+      padding: 1.5rem;
+      margin: 1rem;
+    }
+  
+    .register-title {
+      font-size: 1.8rem !important;
+    }
+  }
