@@ -28,7 +28,8 @@ function Home() {
     {
       icon: <SchoolIcon fontSize="large" />,
       title: 'Profesores Expertos',
-      description: 'Nuestros profesores están altamente calificados y dedicados a tu aprendizaje.'
+      description: 'Nuestros profesores están altamente calificados y dedicados a tu aprendizaje.',
+      path: '/profesores-expertos'
     },
     {
       icon: <GroupIcon fontSize="large" />,
@@ -75,20 +76,24 @@ function Home() {
         <Grid container spacing={4}>
           {features.map((feature, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
-            <Card className="feature-card" style={{ textDecoration: 'none' }}>
-                <Box component={feature.path ? Link : 'div'} to={feature.path} style={{ textDecoration: 'none', width: '100%', height: '100%' }}>
-                    <CardContent>
-                        <Box className="feature-icon">
-                            {feature.icon}
-                        </Box>
-                        <Typography variant="h5" className="feature-title">
-                            {feature.title}
-                        </Typography>
-                        <Typography className="feature-description">
-                            {feature.description}
-                        </Typography>
-                    </CardContent>
-                </Box>
+            <Card className="feature-card">
+              <Box 
+                component={feature.path ? Link : 'div'} 
+                to={feature.path} 
+                style={{ textDecoration: 'none', width: '100%', height: '100%' }}
+              >
+                <CardContent>
+                  <Box className="feature-icon">
+                    {feature.icon}
+                  </Box>
+                  <Typography variant="h5" className="feature-title">
+                    {feature.title}
+                  </Typography>
+                  <Typography className="feature-description">
+                    {feature.description}
+                  </Typography>
+                </CardContent>
+              </Box>
             </Card>
           </Grid>
           ))}
@@ -207,3 +212,4 @@ function Home() {
 }
 
 export default Home;
+

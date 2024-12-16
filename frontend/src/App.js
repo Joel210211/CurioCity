@@ -11,6 +11,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import InteractiveContent from './pages/InteractiveContent';
+import ProfesoresExpertos from './pages/ProfesoresExpertos';
 import ProtectedRoute from './components/ProtectedRoute';
 import Courses from './pages/Cursos';
 
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/interactive-content" element={<InteractiveContent />} />
+                <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
                 <Route 
                   path="/cursos" 
                   element={
