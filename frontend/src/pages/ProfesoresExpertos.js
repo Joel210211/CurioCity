@@ -6,52 +6,93 @@ import {
   Card, 
   CardContent, 
   Button,
-  Box
+  Box,
+  Avatar,
+  Chip
 } from '@mui/material';
 import { Link } from 'react-router-dom';
+import SchoolIcon from '@mui/icons-material/School';
+import StarIcon from '@mui/icons-material/Star';
 import '../styles/ProfesoresExpertos.css';
 
 function ProfesoresExpertos() {
   const profesores = [
-    { nombre: 'María García', especialidad: 'Matemáticas', experiencia: '10 años' },
-    { nombre: 'Juan Pérez', especialidad: 'Ciencias', experiencia: '8 años' },
-    { nombre: 'Ana Rodríguez', especialidad: 'Lenguaje', experiencia: '12 años' },
-    { nombre: 'Carlos López', especialidad: 'Inglés', experiencia: '9 años' },
+    { 
+      nombre: 'María García', 
+      especialidad: 'Matemáticas', 
+      experiencia: '10 años',
+      imagen: 'https://randomuser.me/api/portraits/women/1.jpg',
+      calificacion: 4.8
+    },
+    { 
+      nombre: 'Juan Pérez', 
+      especialidad: 'Ciencias', 
+      experiencia: '8 años',
+      imagen: 'https://randomuser.me/api/portraits/men/1.jpg',
+      calificacion: 4.6
+    },
+    { 
+      nombre: 'Ana Rodríguez', 
+      especialidad: 'Lenguaje', 
+      experiencia: '12 años',
+      imagen: 'https://randomuser.me/api/portraits/women/2.jpg',
+      calificacion: 4.9
+    },
+    { 
+      nombre: 'Carlos López', 
+      especialidad: 'Inglés', 
+      experiencia: '9 años',
+      imagen: 'https://randomuser.me/api/portraits/men/2.jpg',
+      calificacion: 4.7
+    },
   ];
 
   return (
-    <div className="profesores-expertos-page">
-      <Box className="hero-section">
-        <Container>
-          <Typography variant="h2" className="page-title">
+    <div className="pe-page">
+      <Box className="pe-hero-section">
+        <Container maxWidth="lg">
+          <Typography variant="h2" className="pe-page-title">
             Nuestros Profesores Expertos
           </Typography>
-          <Typography variant="h5" className="page-subtitle">
+          <Typography variant="h5" className="pe-page-subtitle">
             Conoce a los profesionales dedicados a tu aprendizaje
           </Typography>
         </Container>
       </Box>
 
-      <Container className="content-section">
+      <Container maxWidth="lg" className="pe-content-section">
         <Grid container spacing={4}>
           {profesores.map((profesor, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card className="profesor-card">
+              <Card className="pe-profesor-card">
                 <CardContent>
-                  <Typography variant="h5" className="profesor-nombre">
+                  <Avatar
+                    alt={profesor.nombre}
+                    src={profesor.imagen}
+                    className="pe-profesor-avatar"
+                  />
+                  <Typography variant="h5" className="pe-profesor-nombre">
                     {profesor.nombre}
                   </Typography>
-                  <Typography className="profesor-especialidad">
-                    Especialidad: {profesor.especialidad}
+                  <Chip
+                    icon={<SchoolIcon />}
+                    label={profesor.especialidad}
+                    className="pe-profesor-especialidad-chip"
+                  />
+                  <Typography className="pe-profesor-experiencia">
+                    {profesor.experiencia} de experiencia
                   </Typography>
-                  <Typography className="profesor-experiencia">
-                    Experiencia: {profesor.experiencia}
-                  </Typography>
+                  <Box className="pe-profesor-calificacion">
+                    <StarIcon className="pe-star-icon" />
+                    <Typography component="span">
+                      {profesor.calificacion.toFixed(1)}
+                    </Typography>
+                  </Box>
                   <Button 
                     component={Link} 
                     to={`/profesor/${index}`} 
                     variant="contained" 
-                    className="profesor-button"
+                    className="pe-profesor-button"
                   >
                     Ver Perfil
                   </Button>
@@ -62,12 +103,12 @@ function ProfesoresExpertos() {
         </Grid>
       </Container>
 
-      <Box className="cta-section">
-        <Container>
-          <Typography variant="h4" className="cta-title">
+      <Box className="pe-cta-section">
+        <Container maxWidth="lg">
+          <Typography variant="h3" className="pe-cta-title">
             ¿Eres un profesor experto?
           </Typography>
-          <Typography variant="h6" className="cta-subtitle">
+          <Typography variant="h6" className="pe-cta-subtitle">
             Únete a nuestra plataforma y comparte tu conocimiento
           </Typography>
           <Button 
@@ -75,7 +116,7 @@ function ProfesoresExpertos() {
             to="/register" 
             variant="contained" 
             size="large"
-            className="cta-button"
+            className="pe-cta-button"
           >
             Regístrate como Profesor
           </Button>
