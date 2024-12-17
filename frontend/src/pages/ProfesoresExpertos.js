@@ -33,7 +33,7 @@ function ProfesoresExpertos() {
     },
     { 
       nombre: 'Ana Rodríguez', 
-      especialidad: 'Lenguaje', 
+      especialidad: 'Lengua', 
       experiencia: '12 años',
       imagen: 'https://randomuser.me/api/portraits/women/2.jpg',
       calificacion: 4.9
@@ -74,11 +74,13 @@ function ProfesoresExpertos() {
                   <Typography variant="h5" className="pe-profesor-nombre">
                     {profesor.nombre}
                   </Typography>
-                  <Chip
-                    icon={<SchoolIcon />}
-                    label={profesor.especialidad}
-                    className="pe-profesor-especialidad-chip"
-                  />
+                  <Box display="flex" justifyContent="center" width="100%">
+                    <Chip
+                      icon={<SchoolIcon />}
+                      label={profesor.especialidad}
+                      className="pe-profesor-especialidad-chip"
+                    />
+                  </Box>
                   <Typography className="pe-profesor-experiencia">
                     {profesor.experiencia} de experiencia
                   </Typography>

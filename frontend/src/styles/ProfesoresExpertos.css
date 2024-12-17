@@ -54,12 +54,12 @@
   color: #333;
   font-size: 1.25rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Updated margin-bottom */
   text-align: center;
 }
 
 .pe-profesor-especialidad-chip {
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0; /* Updated margin */
   background-color: #e3f2fd;
   color: #1565c0;
 }
