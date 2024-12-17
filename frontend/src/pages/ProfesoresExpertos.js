@@ -33,7 +33,7 @@ function ProfesoresExpertos() {
     },
     { 
       nombre: 'Ana Rodríguez', 
-      especialidad: 'Lengua', 
+      especialidad: 'Lenguaje', 
       experiencia: '12 años',
       imagen: 'https://randomuser.me/api/portraits/women/2.jpg',
       calificacion: 4.9
