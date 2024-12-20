@@ -73,7 +73,7 @@
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  background-color: aquamarine;
+  background-color: rgb(3, 207, 139);
 }
 
 .feature-icon {
@@ -95,6 +95,8 @@
 .subjects-section {
   padding: 4rem 0;
   background-color: #f5f5f5;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
 }
 
 .subject-card {
