@@ -65,7 +65,7 @@ function Footer() {
 
         <Box className="footer-bottom">
           <Typography variant="body2">
-            © {new Date().getFullYear()} Escuela Virtual. Todos los derechos reservados.
+            © {new Date().getFullYear()} CurioCity. Todos los derechos reservados.
           </Typography>
         </Box>
       </Container>
