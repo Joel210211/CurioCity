@@ -15,10 +15,30 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(formData);
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Error al iniciar sesión');
+      }
+
+      // Guardar token en localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      
+      // Actualizar contexto de autenticación
+      login(data);
       navigate('/');
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
+      // Agregar manejo de errores en la UI
     }
   };
 

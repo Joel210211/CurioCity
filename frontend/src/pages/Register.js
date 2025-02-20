@@ -61,27 +61,24 @@ function Register() {
     }
 
     try {
-      // Aquí irá la lógica de registro con el backend
-      const response = await fetch('http://localhost:5000/api/register', {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
       });
-  
+
+      const data = await response.json();
+      
       if (!response.ok) {
-        throw new Error('Error al registrarse');
+        throw new Error(data.message || 'Error al registrarse');
       }
-  
-      // Eliminar la línea que asigna 'data' si no se usa
-      // const data = await response.json(); // Esta línea se puede eliminar
-  
-      // Si necesitas hacer algo con la respuesta, puedes hacerlo aquí
+
       console.log('Usuario registrado exitosamente');
       navigate('/login');
     } catch (error) {
-      setError('Error al registrarse. Por favor intente nuevamente.');
+      setError(error.message || 'Error al registrarse. Por favor intente nuevamente.');
       console.error('Error al registrarse:', error);
     }
   };
