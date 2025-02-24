@@ -60,19 +60,27 @@ function Register() {
       return;
     }
 
+    // Preparar datos para enviar sin el campo confirmPassword
+    const { confirmPassword, ...userData } = formData;
+
+    // Si es profesor, convertir experiencia a número
+    if (userData.rol === 'profesor') {
+      userData.experiencia = Number(userData.experiencia);
+    }
+
     try {
       const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(userData),
       });
 
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.message || 'Error al registrarse');
+        throw new Error(data.msg || 'Error al registrarse');
       }
 
       console.log('Usuario registrado exitosamente');

@@ -30,28 +30,36 @@ const usuarioSchema = new mongoose.Schema({
     enum: ['estudiante', 'profesor', 'padre'],
     required: [true, 'El rol es requerido']
   },
-  // Campos específicos según el rol
+  // Campos condicionales sin valor por defecto
   grado: {
     type: String,
-    required: function() { return this.rol === 'estudiante' }
+    required: function() {
+      return this.rol === 'estudiante';
+    }
   },
   especialidad: {
     type: String,
-    required: function() { return this.rol === 'profesor' }
+    required: function() {
+      return this.rol === 'profesor';
+    }
   },
   experiencia: {
     type: Number,
-    required: function() { return this.rol === 'profesor' }
+    required: function() {
+      return this.rol === 'profesor';
+    }
   },
   hijosRegistrados: {
     type: String,
-    required: function() { return this.rol === 'padre' }
+    required: function() {
+      return this.rol === 'padre';
+    }
   }
 }, {
   timestamps: true
 });
 
-// Método para encriptar la contraseña antes de guardar
+// Encriptar la contraseña antes de guardar
 usuarioSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   
