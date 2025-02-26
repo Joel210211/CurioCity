@@ -1,25 +1,28 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [usuario, setUsuario] = useState(null);
 
-  const login = (userData) => {
-    setUser(userData);
-    localStorage.setItem('user', JSON.stringify(userData));
+  const login = async (formData) => {
+    // Lógica para iniciar sesión y establecer el usuario
+    // ...
   };
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem('user');
+    setUsuario(null); // Elimina el usuario del estado
+    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
+    // La navegación se manejará en el componente que llama a logout
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ usuario, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);

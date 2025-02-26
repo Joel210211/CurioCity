@@ -16,7 +16,7 @@ function Login() {
     e.preventDefault();
     try {
       await login(formData);
-      navigate('/');
+      navigate('/perfil');
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
     }

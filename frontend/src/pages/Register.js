@@ -80,7 +80,12 @@ function Register() {
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.msg || 'Error al registrarse');
+        // Manejo específico para el error de duplicado
+        if (data.msg === 'El email ya está registrado') {
+          setError('Este correo electrónico ya está registrado. Por favor, use otro.');
+        } else {
+          throw new Error(data.msg || 'Error al registrarse');
+        }
       }
 
       console.log('Usuario registrado exitosamente');

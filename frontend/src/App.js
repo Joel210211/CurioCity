@@ -14,40 +14,38 @@ import InteractiveContent from './pages/InteractiveContent';
 import ProfesoresExpertos from './pages/ProfesoresExpertos';
 import ProtectedRoute from './components/ProtectedRoute';
 import Courses from './pages/Cursos';
+import Perfil from './pages/Perfil';
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AuthProvider>
-        <Router>
-          <div className="app">
-            <Navbar />
-            <main>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/interactive-content" element={<InteractiveContent />} />
-                <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
-                <Route 
-                  path="/cursos" 
-                  element={
-                    <ProtectedRoute>
-                      <Courses />
-                    </ProtectedRoute>
-                  } 
-                />
-                {/* Rutas para el contenido interactivo */}
-                <Route path="/quizzes" element={<InteractiveContent />} />
-                <Route path="/games" element={<InteractiveContent />} />
-                <Route path="/readings" element={<InteractiveContent />} />
-                <Route path="/experiments" element={<InteractiveContent />} />
-              </Routes>
-            </main>
-          </div>
-        </Router>
-      </AuthProvider>
+      <Router>
+        <AuthProvider>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/interactive-content" element={<InteractiveContent />} />
+            <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
+            <Route 
+              path="/cursos" 
+              element={
+                <ProtectedRoute>
+                  <Courses />
+                </ProtectedRoute>
+              } 
+            />
+            {/* Rutas para el contenido interactivo */}
+            <Route path="/quizzes" element={<InteractiveContent />} />
+            <Route path="/games" element={<InteractiveContent />} />
+            <Route path="/readings" element={<InteractiveContent />} />
+            <Route path="/experiments" element={<InteractiveContent />} />
+            <Route path="/perfil" element={<Perfil />} />
+          </Routes>
+        </AuthProvider>
+      </Router>
     </ThemeProvider>
   );
 }

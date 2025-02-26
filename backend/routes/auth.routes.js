@@ -45,6 +45,15 @@ router.post('/register', async (req, res) => {
     usuario = new Usuario(usuarioData);
     await usuario.save();
 
+    // Crear perfil para el nuevo usuario
+    await fetch('http://localhost:5000/api/perfil/crear', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': token
+      }
+    });
+
     // Crear payload para el JWT
     const payload = {
       usuario: {
