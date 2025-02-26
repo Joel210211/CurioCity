@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Paper, TextField, Button, Typography } from '@mui/material';
+import { Container, Paper, TextField, Button, Typography, Alert } from '@mui/material';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Login.css';
 
@@ -9,15 +9,33 @@ function Login() {
     email: '',
     password: ''
   });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     try {
-      await login(formData);
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.msg || 'Error al iniciar sesión');
+        return;
+      }
+
+      await login(data);
       navigate('/perfil');
     } catch (error) {
+      setError('Error al iniciar sesión. Por favor intente nuevamente.');
       console.error('Error al iniciar sesión:', error);
     }
   };
@@ -35,6 +53,7 @@ function Login() {
         <Typography variant="h4" className="login-title">
           Iniciar Sesión
         </Typography>
+        {error && <Alert severity="error">{error}</Alert>}
         <form onSubmit={handleSubmit} className="login-form">
           <TextField
             className="form-field"

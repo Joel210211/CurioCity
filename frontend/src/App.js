@@ -13,7 +13,7 @@ import Register from './pages/Register';
 import InteractiveContent from './pages/InteractiveContent';
 import ProfesoresExpertos from './pages/ProfesoresExpertos';
 import ProtectedRoute from './components/ProtectedRoute';
-import Courses from './pages/Cursos';
+import Cursos from './pages/Cursos';
 import Perfil from './pages/Perfil';
 
 function App() {
@@ -29,14 +29,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/interactive-content" element={<InteractiveContent />} />
             <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
-            <Route 
-              path="/cursos" 
-              element={
-                <ProtectedRoute>
-                  <Courses />
-                </ProtectedRoute>
-              } 
-            />
+            <Route path="/cursos" element={<Cursos />} />
             {/* Rutas para el contenido interactivo */}
             <Route path="/quizzes" element={<InteractiveContent />} />
             <Route path="/games" element={<InteractiveContent />} />

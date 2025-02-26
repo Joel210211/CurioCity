@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   AppBar, 
   Toolbar, 
@@ -12,25 +12,41 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
-  useTheme 
+  useTheme,
+  Menu,
+  MenuItem
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Navbar.css';
 
 function Navbar() {
-  const { user, logout } = useAuth();
+  const { usuario, logout } = useAuth();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const navItems = user ? [
-    { text: 'Cursos', path: '/cursos' },
-    { text: 'Cerrar Sesión', action: logout }
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const navItems = usuario ? [
+    { text: 'Cerrar Sesión', action: handleLogout }
   ] : [
     { text: 'Iniciar Sesión', path: '/login' },
     { text: 'Registrarse', path: '/register' }
@@ -123,6 +139,18 @@ function Navbar() {
                 </Button>
               )
             ))}
+            {usuario && (
+              <>
+                <Button color="inherit" onClick={handleMenu}>Mi Cuenta</Button>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem component={Link} to="/cursos" onClick={handleClose}>Cursos</MenuItem>
+                </Menu>
+              </>
+            )}
           </Box>
         )}
       </Toolbar>
