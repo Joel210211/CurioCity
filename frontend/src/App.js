@@ -15,6 +15,12 @@ import ProfesoresExpertos from './pages/ProfesoresExpertos';
 import ProtectedRoute from './components/ProtectedRoute';
 import Cursos from './pages/Cursos';
 import Perfil from './pages/Perfil';
+import Matematicas from './components/Matematicas';
+import Lengua from './components/Lengua';
+import Plastica from './components/Plastica';
+import Musica from './components/Musica';
+import Ingles from './components/Ingles';
+import Ciencias from './components/Ciencias';
 
 function App() {
   return (
@@ -36,6 +42,12 @@ function App() {
             <Route path="/readings" element={<InteractiveContent />} />
             <Route path="/experiments" element={<InteractiveContent />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/matematicas" element={<Matematicas />} />
+            <Route path="/lengua" element={<Lengua />} />
+            <Route path="/plastica" element={<Plastica />} />
+            <Route path="/musica" element={<Musica />} />
+            <Route path="/ingles" element={<Ingles />} />
+            <Route path="/ciencias" element={<Ciencias />} />
           </Routes>
         </AuthProvider>
       </Router>

@@ -50,7 +50,7 @@ function Home() {
         <Container>
           <div className="hero-content">
             <Typography variant="h2" className="hero-title">
-              Bienvenido a Tu Escuela Virtual
+              Bienvenido a Tu Patio de Juegos
             </Typography>
             <Typography variant="h5" className="hero-subtitle">
               Aprende, crece y diviértete con nuestra plataforma educativa diseñada especialmente para ti
@@ -115,6 +115,9 @@ function Home() {
                 <Typography className="subject-description">
                   Aprende matemáticas de forma divertida con ejercicios interactivos.
                 </Typography>
+                <Button component={Link} to="/matematicas" variant="contained">
+                  Ver Más
+                </Button>
               </CardContent>
             </Card>
           </Grid>
@@ -123,11 +126,14 @@ function Home() {
             <Card className="subject-card">
               <CardContent>
                 <Typography variant="h5" className="subject-title">
-                  Lenguaje
+                  Lengua
                 </Typography>
                 <Typography className="subject-description">
                   Mejora tus habilidades de lectura y escritura con actividades dinámicas.
                 </Typography>
+                <Button component={Link} to="/lengua" variant="contained">
+                  Ver Más
+                </Button>
               </CardContent>
             </Card>
           </Grid>
@@ -141,6 +147,9 @@ function Home() {
                 <Typography className="subject-description">
                   Descubre el fascinante mundo de las ciencias naturales.
                 </Typography>
+                <Button component={Link} to="/ciencias" variant="contained">
+                  Ver Más
+                </Button>
               </CardContent>
             </Card>
           </Grid>
@@ -154,6 +163,7 @@ function Home() {
                 <Typography className="subject-description">
                   Aprende inglés con métodos interactivos y conversaciones prácticas.
                 </Typography>
+                <Button component={Link} to="/ingles" variant="contained">Ver Más</Button>
               </CardContent>
             </Card>
           </Grid>
@@ -167,6 +177,7 @@ function Home() {
                 <Typography className="subject-description">
                   Explora el mundo de la música a través de teoría y práctica instrumental.
                 </Typography>
+                <Button component={Link} to="/musica" variant="contained">Ver Más</Button>
               </CardContent>
             </Card>
           </Grid>
@@ -180,6 +191,7 @@ function Home() {
                 <Typography className="subject-description">
                   Desarrolla tu creatividad con diferentes técnicas artísticas y proyectos.
                 </Typography>
+                <Button component={Link} to="/plastica" variant="contained">Ver Más</Button>
               </CardContent>
             </Card>
           </Grid>

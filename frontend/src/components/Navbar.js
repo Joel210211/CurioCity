@@ -19,6 +19,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Navbar.css';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Navbar() {
   const { usuario, logout } = useAuth();
@@ -43,6 +44,10 @@ function Navbar() {
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
   const navItems = usuario ? [
@@ -81,11 +86,15 @@ function Navbar() {
   return (
     <AppBar position="sticky" className="navbar">
       <Toolbar className="toolbar">
+        <IconButton edge="start" color="inherit" onClick={handleBack} aria-label="volver">
+          <ArrowBackIcon />
+        </IconButton>
         <Typography 
           component={Link} 
           to="/" 
           className="navbar-brand"
           variant="h4"
+          sx={{ flexGrow: 1, marginLeft: 1 }}
         >
           <span className="curio">Curio</span>
           <span className="city">City</span>

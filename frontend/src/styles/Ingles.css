@@ -1,0 +1,69 @@
+body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #f0f8ff; /* Un color de fondo suave */
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  h3, h5 {
+    color: #ff6347; /* Un color rojo tomate vibrante */
+  }
+  
+  .grado-paper {
+    padding: 20px;
+    text-align: center;
+    background-color: #ffebcd; /* Un color de fondo beige claro */
+    border-radius: 10px;
+    transition: transform 0.2s;
+  }
+  
+  .grado-paper:hover {
+    transform: scale(1.05);
+    background-color: #ffe4b5; /* Un color más claro al pasar el ratón */
+    cursor: pointer;
+  }
+  
+  .grado-content {
+    margin: 10px 0;
+  }
+  
+  .grado-content h5 {
+    margin-bottom: 10px;
+    color: #4682b4; /* Un color azul acero */
+  }
+  
+  .grado-content p {
+    color: #555;
+  }
+  
+  button {
+    background-color: #32cd32; /* Un color verde lima */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #228b22; /* Un color verde más oscuro */
+  }
+  
+  @media (max-width: 600px) {
+    .grado-paper {
+      padding: 15px;
+    }
+  
+    h3 {
+      font-size: 1.5em;
+    }
+  
+    h5 {
+      font-size: 1.2em;
+    }
+  }

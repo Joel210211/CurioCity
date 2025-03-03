@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Container, Typography, List, ListItem, ListItemText, Button, Avatar, Grid } from '@mui/material';
+import { Container, Typography, List, ListItem, ListItemText, Button, Avatar, Grid, LinearProgress } from '@mui/material';
 
 function Perfil() {
   const { usuario, logout } = useAuth();
@@ -11,15 +11,16 @@ function Perfil() {
   useEffect(() => {
     const fetchPerfil = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/perfil', {
-          headers: {
-            'x-auth-token': usuario.token
-          }
-        });
-        const data = await response.json();
-        if (data.success) {
-          setPerfil(data.perfil);
-        }
+        // Simulación de datos de perfil con tareas
+        const perfilData = {
+          progreso: 50,
+          tareas: [
+            { titulo: 'Tarea 1', progreso: 20 },
+            { titulo: 'Tarea 2', progreso: 50 },
+            { titulo: 'Tarea 3', progreso: 80 },
+          ],
+        };
+        setPerfil(perfilData);
       } catch (error) {
         console.error('Error al obtener el perfil:', error);
       }
@@ -47,15 +48,16 @@ function Perfil() {
         <Grid item xs={12} sm={8}>
           {perfil && (
             <>
-              <Typography variant="h6">Progreso: {perfil.progreso}%</Typography>
-              <Typography variant="h6">Tareas:</Typography>
+              <Typography variant="h6">Progreso General: {perfil.progreso}%</Typography>
+              <Typography variant="h6" gutterBottom>Tablero de Actividades</Typography>
               <List>
                 {perfil.tareas.map((tarea, index) => (
                   <ListItem key={index}>
                     <ListItemText
                       primary={tarea.titulo}
-                      secondary={tarea.descripcion}
+                      secondary={`Progreso: ${tarea.progreso}%`}
                     />
+                    <LinearProgress variant="determinate" value={tarea.progreso} />
                   </ListItem>
                 ))}
               </List>
