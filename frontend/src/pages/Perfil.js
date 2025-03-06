@@ -6,6 +6,7 @@ import { Container, Typography, List, ListItem, ListItemText, Button, Avatar, Gr
 function Perfil() {
   const { usuario, logout } = useAuth();
   const [perfil, setPerfil] = useState(null);
+  const [cursos, setCursos] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,7 +27,21 @@ function Perfil() {
       }
     };
 
-    fetchPerfil();
+    const fetchCursos = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/cursos');
+        const data = await response.json();
+        setCursos(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error('Error al obtener los cursos:', error);
+        setCursos([]);
+      }
+    };
+
+    if (usuario) {
+      fetchPerfil();
+      fetchCursos();
+    }
   }, [usuario]);
 
   const handleLogout = () => {
@@ -49,6 +64,7 @@ function Perfil() {
           {perfil && (
             <>
               <Typography variant="h6">Progreso General: {perfil.progreso}%</Typography>
+              <LinearProgress variant="determinate" value={perfil.progreso} />
               <Typography variant="h6" gutterBottom>Tablero de Actividades</Typography>
               <List>
                 {perfil.tareas.map((tarea, index) => (
@@ -62,6 +78,21 @@ function Perfil() {
                 ))}
               </List>
             </>
+          )}
+          <Typography variant="h6" gutterBottom>Mis Cursos</Typography>
+          {Array.isArray(cursos) && cursos.length > 0 ? (
+            <List>
+              {cursos.map((curso, index) => (
+                <ListItem key={index}>
+                  <ListItemText
+                    primary={curso.titulo}
+                    secondary={curso.descripcion}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography>No hay cursos disponibles</Typography>
           )}
           <Button variant="contained" color="secondary" onClick={handleLogout}>
             Cerrar Sesión

@@ -17,16 +17,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async (formData) => {
-    // Lógica para iniciar sesión y establecer el usuario
-    // Simulación de inicio de sesión
-    setUsuario({ id: '123', nombre: 'Usuario', token: 'token123' });
-    localStorage.setItem('token', 'token123');
+  const login = (data) => {
+    localStorage.setItem('token', data.token);
+    setUsuario(data.usuario);
   };
 
   const logout = () => {
-    setUsuario(null);
     localStorage.removeItem('token');
+    setUsuario(null);
   };
 
   return (

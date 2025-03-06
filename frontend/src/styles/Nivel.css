@@ -1,0 +1,27 @@
+/* frontend/src/styles/Nivel.css */
+.grado-paper {
+    background-color: #f5f5f5; /* Color de fondo suave */
+    border-radius: 8px; /* Bordes redondeados */
+    transition: transform 0.2s; /* Efecto de transición */
+}
+
+.grado-paper:hover {
+    transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+}
+
+.grado-content {
+    padding: 16px; /* Espaciado interno */
+}
+
+ul {
+    list-style-type: none; /* Quitar los puntos de la lista */
+    padding: 0; /* Quitar el padding */
+}
+
+li {
+    margin: 8px 0; /* Espaciado entre los elementos de la lista */
+    padding: 8px; /* Espaciado interno para cada elemento */
+    border: 1px solid #007BFF; /* Borde azul */
+    border-radius: 4px; /* Bordes redondeados */
+    background-color: #ffffff; /* Fondo blanco para los elementos de la lista */
+}

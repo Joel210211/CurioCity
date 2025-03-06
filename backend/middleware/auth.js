@@ -1,12 +1,20 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
-    try{
-        const token = req.header.authorization.split(" ")[1];
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        req.userData = decodedToken;
+module.exports = function(req, res, next) {
+    // Obtener el token del header
+    const token = req.header('x-auth-token') || req.header('Authorization')?.replace('Bearer ', '');
+
+    // Verificar si no hay token
+    if (!token) {
+        return res.status(401).json({ msg: 'No hay token, autorización denegada' });
+    }
+
+    try {
+        // Verificar el token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.usuario = decoded.usuario;
         next();
-    } catch (error) {
-        return res.status(401).json({ message: 'No estás autenticado'});
+    } catch (err) {
+        res.status(401).json({ msg: 'Token no válido' });
     }
 };

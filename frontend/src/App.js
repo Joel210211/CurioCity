@@ -21,6 +21,7 @@ import Plastica from './components/Plastica';
 import Musica from './components/Musica';
 import Ingles from './components/Ingles';
 import Ciencias from './components/Ciencias';
+import ContenidoPorGrado from './components/ContenidoPorGrado';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             <Route path="/musica" element={<Musica />} />
             <Route path="/ingles" element={<Ingles />} />
             <Route path="/ciencias" element={<Ciencias />} />
+            <Route path="/matematicas/:grado" element={<ContenidoPorGrado />} />
           </Routes>
         </AuthProvider>
       </Router>
