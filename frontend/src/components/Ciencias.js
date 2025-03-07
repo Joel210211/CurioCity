@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Typography, Box, Grid, Paper } from '@mui/material';
+import { Container, Typography, Grid } from '@mui/material';
+import Nivel from './Nivel'; // Asegúrate de importar el componente Nivel
 import '../styles/Ciencias.css';
 
 function Ciencias() {
@@ -41,6 +42,15 @@ function Ciencias() {
     return <Container><Typography color="error">Error: {error}</Typography></Container>;
   }
 
+  // Agrupar cursos por grado
+  const cursosPorGrado = {};
+  cursos.forEach(curso => {
+    if (!cursosPorGrado[curso.grado]) {
+      cursosPorGrado[curso.grado] = [];
+    }
+    cursosPorGrado[curso.grado].push(curso);
+  });
+
   return (
     <Container>
       <Typography variant="h3" gutterBottom>Ciencias</Typography>
@@ -48,30 +58,9 @@ function Ciencias() {
         Explora el contenido de ciencias para cada grado.
       </Typography>
       <Grid container spacing={4}>
-        {cursos.length > 0 ? (
-          cursos.map((curso, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Paper className="grado-paper" elevation={3}>
-                <Box className="grado-content">
-                  <Typography variant="h5">{curso.grado}</Typography>
-                  <Typography variant="body1">{curso.descripcion}</Typography>
-                  <ul>
-                    {curso.contenido.map((contenido, idx) => (
-                      <li key={idx}>
-                        <Typography variant="subtitle1">{contenido.titulo}</Typography>
-                        <Typography variant="body2">{contenido.descripcion}</Typography>
-                      </li>
-                    ))}
-                  </ul>
-                </Box>
-              </Paper>
-            </Grid>
-          ))
-        ) : (
-          <Grid item xs={12}>
-            <Typography>No hay cursos disponibles para ciencias.</Typography>
-          </Grid>
-        )}
+        {Object.keys(cursosPorGrado).map(grado => (
+          <Nivel key={grado} grado={grado} cursos={cursosPorGrado[grado]} />
+        ))}
       </Grid>
     </Container>
   );

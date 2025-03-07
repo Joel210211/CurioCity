@@ -18,8 +18,8 @@ function Matematicas() {
           throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
         const data = await response.json();
-        const cursosMatematicas = data.filter(curso => curso.materia === 'Matemáticas');
-        setCursos(cursosMatematicas);
+          const cursosMatematicas = data.filter(curso => curso.materia === 'Matemáticas');
+          setCursos(cursosMatematicas);
       } catch (error) {
         console.error('Error al obtener los cursos:', error);
         setError(error.message);

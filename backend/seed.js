@@ -9,6 +9,7 @@ mongoose.connect('mongodb://localhost:27017/tu_base_de_datos', {
 
 // Datos de prueba
 const cursosData = [
+  // Matemáticas
   {
     titulo: 'Matemáticas Básicas',
     descripcion: 'Curso introductorio de matemáticas',
@@ -87,6 +88,7 @@ const cursosData = [
       }
     ]
   },
+  // Lengua
   {
     titulo: 'Lengua y Literatura',
     descripcion: 'Desarrolla tus habilidades de lectura y escritura',
@@ -165,6 +167,7 @@ const cursosData = [
       }
     ]
   },
+  // Ciencias
   {
     titulo: 'Ciencias Naturales',
     descripcion: 'Explora el mundo de la ciencia',
@@ -243,6 +246,7 @@ const cursosData = [
       }
     ]
   },
+  // Música
   {
     titulo: 'Música y Ritmo',
     descripcion: 'Explora el mundo de la música',
@@ -321,6 +325,7 @@ const cursosData = [
       }
     ]
   },
+  // Plástica
   {
     titulo: 'Arte y Creatividad',
     descripcion: 'Desarrolla tu creatividad con diferentes técnicas artísticas',
@@ -399,84 +404,85 @@ const cursosData = [
       }
     ]
   },
+  // Inglés
   {
     titulo: 'Inglés Básico',
     descripcion: 'Curso introductorio de inglés',
     grado: 'Primer Grado',
     materia: 'Inglés',
     contenido: [
-        {
-            titulo: 'Vocabulario Básico',
-            descripcion: 'Aprende palabras y frases básicas en inglés.',
-            recursos: ['https://example.com/vocabulario-basico']
-        }
+      {
+        titulo: 'Vocabulario Básico',
+        descripcion: 'Aprende palabras y frases básicas en inglés.',
+        recursos: ['https://example.com/vocabulario-basico']
+      }
     ]
-},
-{
+  },
+  {
     titulo: 'Inglés Intermedio',
     descripcion: 'Curso de inglés para segundo grado',
     grado: 'Segundo Grado',
     materia: 'Inglés',
     contenido: [
-        {
-            titulo: 'Frases Comunes',
-            descripcion: 'Aprende frases comunes en inglés.',
-            recursos: ['https://example.com/frases-comunes']
-        }
+      {
+        titulo: 'Frases Comunes',
+        descripcion: 'Aprende frases comunes en inglés.',
+        recursos: ['https://example.com/frases-comunes']
+      }
     ]
-},
-{
+  },
+  {
     titulo: 'Inglés Avanzado',
     descripcion: 'Curso de inglés para tercer grado',
     grado: 'Tercer Grado',
     materia: 'Inglés',
     contenido: [
-        {
-            titulo: 'Gramática Básica',
-            descripcion: 'Introducción a la gramática inglesa.',
-            recursos: ['https://example.com/gramatica-basica']
-        }
+      {
+        titulo: 'Gramática Básica',
+        descripcion: 'Introducción a la gramática inglesa.',
+        recursos: ['https://example.com/gramatica-basica']
+      }
     ]
-},
-{
+  },
+  {
     titulo: 'Inglés para Cuarto Grado',
     descripcion: 'Curso de inglés para cuarto grado',
     grado: 'Cuarto Grado',
     materia: 'Inglés',
     contenido: [
-        {
-            titulo: 'Lectura y Comprensión',
-            descripcion: 'Desarrolla habilidades de lectura en inglés.',
-            recursos: ['https://example.com/lectura']
-        }
+      {
+        titulo: 'Lectura y Comprensión',
+        descripcion: 'Desarrolla habilidades de lectura en inglés.',
+        recursos: ['https://example.com/lectura']
+      }
     ]
-},
-{
+  },
+  {
     titulo: 'Inglés para Quinto Grado',
     descripcion: 'Curso de inglés para quinto grado',
     grado: 'Quinto Grado',
     materia: 'Inglés',
     contenido: [
-        {
-            titulo: 'Escritura en Inglés',
-            descripcion: 'Aprende a escribir en inglés.',
-            recursos: ['https://example.com/escritura']
-        }
+      {
+        titulo: 'Escritura en Inglés',
+        descripcion: 'Aprende a escribir en inglés.',
+        recursos: ['https://example.com/escritura']
+      }
     ]
-},
-{
+  },
+  {
     titulo: 'Inglés para Sexto Grado',
     descripcion: 'Curso de inglés para sexto grado',
     grado: 'Sexto Grado',
     materia: 'Inglés',
     contenido: [
-        {
-            titulo: 'Conversación en Inglés',
-            descripcion: 'Desarrolla habilidades de conversación en inglés.',
-            recursos: ['https://example.com/conversacion']
-        }
+      {
+        titulo: 'Conversación en Inglés',
+        descripcion: 'Desarrolla habilidades de conversación en inglés.',
+        recursos: ['https://example.com/conversacion']
+      }
     ]
-}
+  }
 ];
 
 // Insertar datos de prueba
