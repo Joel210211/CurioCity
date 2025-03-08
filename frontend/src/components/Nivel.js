@@ -2,14 +2,23 @@
 import React from 'react';
 import { Typography, Box, Paper, Grid } from '@mui/material';
 import '../styles/Nivel.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Nivel = ({ grado, cursos }) => {
+    const location = useLocation();
+    
+    // Obtener la materia actual de la URL
+    const getMateria = () => {
+        const path = location.pathname;
+        const materiaPath = path.split('/')[1]; // Obtiene 'matematicas', 'lengua', etc.
+        return materiaPath;
+    };
+
     return (
         <Grid item xs={12} sm={6} md={4}>
             <Paper className="grado-paper" elevation={3}>
                 <Box className="grado-content">
-                    <Link to={`/matematicas/${grado}`}>
+                    <Link to={`/${getMateria()}/${grado}`}>
                         <Typography variant="h5">{grado}</Typography>
                     </Link>
                     {cursos.length > 0 ? (

@@ -43,13 +43,22 @@ function App() {
             <Route path="/readings" element={<InteractiveContent />} />
             <Route path="/experiments" element={<InteractiveContent />} />
             <Route path="/perfil" element={<Perfil />} />
+            
+            {/* Rutas de materias */}
             <Route path="/matematicas" element={<Matematicas />} />
             <Route path="/lengua" element={<Lengua />} />
             <Route path="/plastica" element={<Plastica />} />
             <Route path="/musica" element={<Musica />} />
             <Route path="/ingles" element={<Ingles />} />
             <Route path="/ciencias" element={<Ciencias />} />
+
+            {/* Rutas para contenido por grado de cada materia */}
             <Route path="/matematicas/:grado" element={<ContenidoPorGrado />} />
+            <Route path="/lengua/:grado" element={<ContenidoPorGrado />} />
+            <Route path="/plastica/:grado" element={<ContenidoPorGrado />} />
+            <Route path="/musica/:grado" element={<ContenidoPorGrado />} />
+            <Route path="/ingles/:grado" element={<ContenidoPorGrado />} />
+            <Route path="/ciencias/:grado" element={<ContenidoPorGrado />} />
           </Routes>
         </AuthProvider>
       </Router>

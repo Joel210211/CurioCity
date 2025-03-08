@@ -1,13 +1,73 @@
 // frontend/src/components/ContenidoPorGrado.js
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Typography, Grid } from '@mui/material';
+import { useParams, useLocation } from 'react-router-dom';
+import { 
+    Container, 
+    Typography, 
+    Grid, 
+    Paper,
+    Box,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails,
+    Card,
+    CardContent,
+    Divider,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Button
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import BookIcon from '@mui/icons-material/Book';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import SchoolIcon from '@mui/icons-material/School';
 
 const ContenidoPorGrado = () => {
-    const { grado } = useParams(); // Obtiene el grado de la URL
+    const { grado } = useParams();
+    const location = useLocation();
     const [cursos, setCursos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // Función para obtener el nombre completo de la materia para el título
+    const getNombreCompleto = (materiaCorta) => {
+        switch (materiaCorta) {
+            case 'Lengua':
+                return 'Lengua y Literatura';
+            case 'Ciencias':
+                return 'Ciencias Naturales';
+            case 'Música':
+                return 'Música y Ritmo';
+            case 'Plástica':
+                return 'Arte y Creatividad';
+            case 'Inglés':
+                return 'Inglés Básico';
+            default:
+                return materiaCorta;
+        }
+    };
+
+    // Determinar la materia basada en la URL
+    const getMateria = (path) => {
+        const pathSegments = path.split('/');
+        const materiaSegment = pathSegments[1];
+        
+        const materiaMap = {
+            'matematicas': 'Matemáticas',
+            'lengua': 'Lengua',
+            'ciencias': 'Ciencias',
+            'musica': 'Música',
+            'plastica': 'Plástica',
+            'ingles': 'Inglés'
+        };
+
+        return materiaMap[materiaSegment] || '';
+    };
+
+    const materia = getMateria(location.pathname);
 
     useEffect(() => {
         const fetchCursos = async () => {
@@ -17,7 +77,11 @@ const ContenidoPorGrado = () => {
                     throw new Error(`Error ${response.status}: ${response.statusText}`);
                 }
                 const data = await response.json();
-                setCursos(data);
+                const cursosFiltrados = data.filter(curso => 
+                    curso.grado === grado.replace('-', ' ') && 
+                    curso.materia === materia
+                );
+                setCursos(cursosFiltrados);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -25,30 +89,268 @@ const ContenidoPorGrado = () => {
             }
         };
 
-        fetchCursos();
-    }, [grado]);
+        if (materia) {
+            fetchCursos();
+        }
+    }, [grado, materia]);
 
-    if (loading) return <Typography>Cargando contenido...</Typography>;
-    if (error) return <Typography color="error">Error: {error}</Typography>;
+    if (loading) return (
+        <Container>
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+                <Typography>Cargando contenido...</Typography>
+            </Box>
+        </Container>
+    );
 
-    // Filtrar los cursos por grado y materia
-    const cursosFiltrados = cursos.filter(curso => curso.grado === grado.replace('-', ' '));
+    if (error) return (
+        <Container>
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+                <Typography color="error">Error: {error}</Typography>
+            </Box>
+        </Container>
+    );
 
-    if (cursosFiltrados.length === 0) {
-        return <Typography>No hay curso disponible para este grado.</Typography>;
+    if (!materia) return (
+        <Container>
+            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+                <Typography>Materia no válida</Typography>
+            </Box>
+        </Container>
+    );
+
+    if (cursos.length === 0) {
+        return (
+            <Container>
+                <Box sx={{ py: 4 }}>
+                    <Typography variant="h3" gutterBottom>{getNombreCompleto(materia)} - {grado.replace('-', ' ')}</Typography>
+                    <Paper sx={{ p: 3, mt: 2 }}>
+                        <Typography>No hay cursos disponibles para este grado en {getNombreCompleto(materia)}.</Typography>
+                    </Paper>
+                </Box>
+            </Container>
+        );
     }
 
     return (
         <Container>
-            <Typography variant="h3">Contenido para {grado.replace('-', ' ')}</Typography>
-            <Grid container spacing={4}>
-                {cursosFiltrados.map(curso => (
-                    <Grid item xs={12} key={curso._id}>
-                        <Typography variant="h5">{curso.titulo}</Typography>
-                        <Typography variant="body1">{curso.descripcion}</Typography>
-                    </Grid>
-                ))}
-            </Grid>
+            <Box sx={{ py: 4 }}>
+                {/* Encabezado */}
+                <Paper 
+                    elevation={3} 
+                    sx={{ 
+                        p: 3, 
+                        mb: 4, 
+                        backgroundColor: '#f5f5f5',
+                        borderRadius: '10px',
+                        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+                    }}
+                >
+                    <Typography 
+                        variant="h3" 
+                        gutterBottom 
+                        sx={{ 
+                            color: '#2c3e50',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            letterSpacing: '1px'
+                        }}
+                    >
+                        {getNombreCompleto(materia)} - {grado.replace('-', ' ')}
+                    </Typography>
+                    <Typography 
+                        variant="subtitle1" 
+                        color="text.secondary"
+                        sx={{
+                            fontSize: '1.1rem',
+                            maxWidth: '800px',
+                            lineHeight: 1.6
+                        }}
+                    >
+                        Explora el contenido y recursos disponibles para este nivel
+                    </Typography>
+                </Paper>
+
+                {/* Contenido Principal */}
+                <Grid container spacing={4}>
+                    {cursos.map(curso => (
+                        <Grid item xs={12} key={curso._id}>
+                            <Card 
+                                elevation={3}
+                                sx={{
+                                    borderRadius: '10px',
+                                    transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                                    '&:hover': {
+                                        transform: 'translateY(-5px)',
+                                        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)'
+                                    }
+                                }}
+                            >
+                                <CardContent sx={{ p: 4 }}>
+                                    <Typography 
+                                        variant="h5" 
+                                        gutterBottom 
+                                        color="primary"
+                                        sx={{
+                                            fontWeight: 'bold',
+                                            mb: 2
+                                        }}
+                                    >
+                                        {curso.titulo}
+                                    </Typography>
+                                    <Typography 
+                                        variant="body1" 
+                                        paragraph
+                                        sx={{
+                                            color: '#666',
+                                            fontSize: '1.1rem',
+                                            lineHeight: 1.6
+                                        }}
+                                    >
+                                        {curso.descripcion}
+                                    </Typography>
+
+                                    <Divider sx={{ my: 3 }} />
+
+                                    {/* Sección de Contenido */}
+                                    {curso.contenido && curso.contenido.map((item, index) => (
+                                        <Accordion 
+                                            key={index} 
+                                            sx={{ 
+                                                mt: 2,
+                                                borderRadius: '8px',
+                                                '&:before': {
+                                                    display: 'none',
+                                                },
+                                                boxShadow: 'none',
+                                                border: '1px solid #e0e0e0'
+                                            }}
+                                        >
+                                            <AccordionSummary 
+                                                expandIcon={<ExpandMoreIcon />}
+                                                sx={{
+                                                    backgroundColor: '#f8f9fa',
+                                                    borderRadius: '8px 8px 0 0'
+                                                }}
+                                            >
+                                                <Typography 
+                                                    variant="h6"
+                                                    sx={{
+                                                        fontWeight: 500,
+                                                        color: '#2c3e50'
+                                                    }}
+                                                >
+                                                    {item.titulo}
+                                                </Typography>
+                                            </AccordionSummary>
+                                            <AccordionDetails sx={{ p: 3 }}>
+                                                <Typography 
+                                                    paragraph
+                                                    sx={{
+                                                        color: '#666',
+                                                        mb: 3
+                                                    }}
+                                                >
+                                                    {item.descripcion}
+                                                </Typography>
+                                                
+                                                {/* Lista de Recursos */}
+                                                {item.recursos && item.recursos.length > 0 && (
+                                                    <List>
+                                                        {item.recursos.map((recurso, idx) => (
+                                                            <ListItem 
+                                                                key={idx}
+                                                                sx={{
+                                                                    backgroundColor: '#f8f9fa',
+                                                                    borderRadius: '8px',
+                                                                    mb: 2,
+                                                                    p: 2
+                                                                }}
+                                                            >
+                                                                <ListItemIcon>
+                                                                    {idx % 3 === 0 ? <BookIcon color="primary" /> :
+                                                                     idx % 3 === 1 ? <VideoLibraryIcon color="secondary" /> :
+                                                                     <AssignmentIcon color="action" />}
+                                                                </ListItemIcon>
+                                                                <ListItemText 
+                                                                    primary={`Recurso ${idx + 1}`}
+                                                                    secondary={recurso}
+                                                                    sx={{
+                                                                        '& .MuiListItemText-primary': {
+                                                                            fontWeight: 'bold',
+                                                                            color: '#2c3e50'
+                                                                        }
+                                                                    }}
+                                                                />
+                                                                <Button 
+                                                                    variant="outlined" 
+                                                                    size="small" 
+                                                                    href={recurso} 
+                                                                    target="_blank"
+                                                                    sx={{
+                                                                        borderRadius: '20px',
+                                                                        ml: 2
+                                                                    }}
+                                                                >
+                                                                    Ver Recurso
+                                                                </Button>
+                                                            </ListItem>
+                                                        ))}
+                                                    </List>
+                                                )}
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    ))}
+
+                                    {/* Botones de Acción */}
+                                    <Box 
+                                        sx={{ 
+                                            mt: 4, 
+                                            display: 'flex', 
+                                            gap: 2,
+                                            justifyContent: 'flex-start'
+                                        }}
+                                    >
+                                        <Button 
+                                            variant="contained" 
+                                            startIcon={<SchoolIcon />}
+                                            color="primary"
+                                            sx={{
+                                                borderRadius: '25px',
+                                                padding: '10px 24px',
+                                                textTransform: 'none',
+                                                fontSize: '1rem',
+                                                fontWeight: 'bold',
+                                                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                                                '&:hover': {
+                                                    transform: 'translateY(-2px)',
+                                                    boxShadow: '0 6px 8px rgba(0, 0, 0, 0.2)'
+                                                }
+                                            }}
+                                        >
+                                            Comenzar Curso
+                                        </Button>
+                                        <Button 
+                                            variant="outlined"
+                                            color="secondary"
+                                            sx={{
+                                                borderRadius: '25px',
+                                                padding: '10px 24px',
+                                                textTransform: 'none',
+                                                fontSize: '1rem',
+                                                '&:hover': {
+                                                    backgroundColor: 'rgba(156, 39, 176, 0.04)'
+                                                }
+                                            }}
+                                        >
+                                            Ver Detalles
+                                        </Button>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
         </Container>
     );
 };
