@@ -17,13 +17,16 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Button
+    Button,
+
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import BookIcon from '@mui/icons-material/Book';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SchoolIcon from '@mui/icons-material/School';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import QuizIcon from '@mui/icons-material/Quiz';
 
 const ContenidoPorGrado = () => {
     const { grado } = useParams();
@@ -72,17 +75,59 @@ const ContenidoPorGrado = () => {
     useEffect(() => {
         const fetchCursos = async () => {
             try {
+                console.log('Iniciando fetchCursos con:', { grado, materia });
                 const response = await fetch(`http://localhost:5000/api/cursos/grado/${grado.replace('-', ' ')}`);
                 if (!response.ok) {
                     throw new Error(`Error ${response.status}: ${response.statusText}`);
                 }
                 const data = await response.json();
-                const cursosFiltrados = data.filter(curso => 
-                    curso.grado === grado.replace('-', ' ') && 
-                    curso.materia === materia
-                );
+                console.log('Datos completos recibidos:', data);
+                
+                // Verificar la estructura de los datos
+                if (!Array.isArray(data)) {
+                    console.error('Los datos recibidos no son un array:', data);
+                    return;
+                }
+
+                const cursosFiltrados = data.filter(curso => {
+                    console.log('Analizando curso:', curso);
+                    if (curso.contenido) {
+                        curso.contenido.forEach((contenido, index) => {
+                            console.log(`Contenido ${index}:`, contenido);
+                            console.log(`Actividades del contenido ${index}:`, contenido.actividades);
+                            if (contenido.actividades) {
+                                console.log(`Número de actividades: ${contenido.actividades.length}`);
+                                contenido.actividades.forEach((actividad, idx) => {
+                                    console.log(`Actividad ${idx}:`, actividad);
+                                });
+                            }
+                        });
+                    }
+                    
+                    if (!curso.grado || !curso.materia) {
+                        console.log('Curso sin grado o materia:', curso);
+                        return false;
+                    }
+
+                    return curso.grado === grado.replace('-', ' ') && curso.materia === materia;
+                });
+                
+                console.log('Cursos filtrados:', cursosFiltrados);
+                
+                if (cursosFiltrados.length > 0) {
+                    console.log('Primer curso filtrado:', cursosFiltrados[0]);
+                    console.log('Contenido del primer curso:', cursosFiltrados[0].contenido);
+                    if (cursosFiltrados[0].contenido) {
+                        cursosFiltrados[0].contenido.forEach((item, index) => {
+                            console.log(`Contenido ${index}:`, item);
+                            console.log(`Actividades del contenido ${index}:`, item.actividades);
+                        });
+                    }
+                }
+                
                 setCursos(cursosFiltrados);
             } catch (error) {
+                console.error('Error detallado en fetchCursos:', error);
                 setError(error.message);
             } finally {
                 setLoading(false);
@@ -90,7 +135,9 @@ const ContenidoPorGrado = () => {
         };
 
         if (materia) {
-            fetchCursos();
+        fetchCursos();
+        } else {
+            console.log('No se encontró materia válida');
         }
     }, [grado, materia]);
 
@@ -171,9 +218,9 @@ const ContenidoPorGrado = () => {
                 </Paper>
 
                 {/* Contenido Principal */}
-                <Grid container spacing={4}>
-                    {cursos.map(curso => (
-                        <Grid item xs={12} key={curso._id}>
+            <Grid container spacing={4}>
+                    {cursos && cursos.map((curso) => (
+                    <Grid item xs={12} key={curso._id}>
                             <Card 
                                 elevation={3}
                                 sx={{
@@ -252,20 +299,12 @@ const ContenidoPorGrado = () => {
                                                 >
                                                     {item.descripcion}
                                                 </Typography>
-                                                
+
                                                 {/* Lista de Recursos */}
                                                 {item.recursos && item.recursos.length > 0 && (
                                                     <List>
                                                         {item.recursos.map((recurso, idx) => (
-                                                            <ListItem 
-                                                                key={idx}
-                                                                sx={{
-                                                                    backgroundColor: '#f8f9fa',
-                                                                    borderRadius: '8px',
-                                                                    mb: 2,
-                                                                    p: 2
-                                                                }}
-                                                            >
+                                                            <ListItem key={idx}>
                                                                 <ListItemIcon>
                                                                     {idx % 3 === 0 ? <BookIcon color="primary" /> :
                                                                      idx % 3 === 1 ? <VideoLibraryIcon color="secondary" /> :
@@ -297,6 +336,84 @@ const ContenidoPorGrado = () => {
                                                         ))}
                                                     </List>
                                                 )}
+
+                                                <Divider sx={{ my: 3 }} />
+
+                                                {/* Actividades */}
+                                                <Box sx={{ mt: 3 }}>
+                                                    <Typography variant="h6" gutterBottom>
+                                                        Actividades
+                                                    </Typography>
+                                                    <Grid container spacing={3}>
+                                                        {item.actividades && Array.isArray(item.actividades) && item.actividades.length > 0 ? (
+                                                            item.actividades.map((actividad, idx) => (
+                                                                <Grid item xs={12} md={6} key={idx}>
+                                                                    <Card variant="outlined">
+                                                                        <CardContent>
+                                                                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                                                                {actividad.tipo === 'ejercicio' && <AssignmentIcon color="primary" />}
+                                                                                {actividad.tipo === 'juego' && <SportsEsportsIcon color="secondary" />}
+                                                                                {actividad.tipo === 'problema' && <QuizIcon color="warning" />}
+                                                                                {actividad.tipo === 'lectura' && <BookIcon color="success" />}
+                                                                                <Typography variant="h6" sx={{ ml: 1 }}>
+                                                                                    {actividad.titulo}
+                                                                                </Typography>
+                                                                            </Box>
+                                                                            
+                                                                            <Typography color="textSecondary" paragraph>
+                                                                                {actividad.descripcion}
+                                                                            </Typography>
+
+                                                                            {/* Problemas */}
+                                                                            {actividad.problemas && Array.isArray(actividad.problemas) && actividad.problemas.length > 0 && (
+                                                                                <List>
+                                                                                    {actividad.problemas.map((problema, pIdx) => (
+                                                                                        <ListItem key={pIdx}>
+                                                                                            <ListItemIcon>
+                                                                                                <AssignmentIcon />
+                                                                                            </ListItemIcon>
+                                                                                            <ListItemText primary={problema} />
+                                                                                        </ListItem>
+                                                                                    ))}
+                                                                                </List>
+                                                                            )}
+
+                                                                            {/* Palabras */}
+                                                                            {actividad.palabras && Array.isArray(actividad.palabras) && actividad.palabras.length > 0 && (
+                                                                                <List>
+                                                                                    {actividad.palabras.map((palabra, pIdx) => (
+                                                                                        <ListItem key={pIdx}>
+                                                                                            <ListItemIcon>
+                                                                                                <BookIcon />
+                                                                                            </ListItemIcon>
+                                                                                            <ListItemText primary={palabra} />
+                                                                                        </ListItem>
+                                                                                    ))}
+                                                                                </List>
+                                                                            )}
+
+                                                                            <Button 
+                                                                                variant="contained" 
+                                                                                color="primary"
+                                                                                fullWidth
+                                                                                sx={{ mt: 2 }}
+                                                                                startIcon={<SchoolIcon />}
+                                                                            >
+                                                                                Comenzar Actividad
+                                                                            </Button>
+                                                                        </CardContent>
+                                                                    </Card>
+                                                                </Grid>
+                                                            ))
+                                                        ) : (
+                                                            <Grid item xs={12}>
+                                                                <Typography color="textSecondary">
+                                                                    No hay actividades disponibles para este contenido.
+                                                                </Typography>
+                                                            </Grid>
+                                                        )}
+                                                    </Grid>
+                                                </Box>
                                             </AccordionDetails>
                                         </Accordion>
                                     ))}
@@ -347,9 +464,9 @@ const ContenidoPorGrado = () => {
                                     </Box>
                                 </CardContent>
                             </Card>
-                        </Grid>
-                    ))}
-                </Grid>
+                    </Grid>
+                ))}
+            </Grid>
             </Box>
         </Container>
     );
