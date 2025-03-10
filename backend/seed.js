@@ -183,7 +183,38 @@ const cursosData = [
       {
         titulo: 'Decimales',
         descripcion: 'Aprende sobre números decimales.',
-        recursos: ['https://example.com/decimales']
+        recursos: ['https://example.com/decimales'],
+        actividades: [
+          {
+            tipo: 'ejercicio',
+            titulo: 'Lectura de decimales',
+            descripcion: 'Aprende a leer y escribir números decimales',
+            problemas: [
+              'Lee el número: 3.14',
+              'Escribe con números: tres enteros veinticinco centésimos',
+              'Ordena de menor a mayor: 2.5, 2.05, 2.15'
+            ]
+          },
+          {
+            tipo: 'ejercicio',
+            titulo: 'Operaciones con decimales',
+            descripcion: 'Suma y resta de números decimales',
+            problemas: [
+              '3.5 + 2.7 = ?',
+              '8.3 - 4.1 = ?',
+              '10.5 + 5.8 = ?'
+            ]
+          },
+          {
+            tipo: 'problema',
+            titulo: 'Problemas con decimales',
+            descripcion: 'Resuelve problemas de la vida real con decimales',
+            problemas: [
+              'Juan tiene $5.75 y María $3.25. ¿Cuánto dinero tienen entre los dos?',
+              'Si un lápiz cuesta $2.50 y compras 3, ¿cuánto pagarás?'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -196,7 +227,33 @@ const cursosData = [
       {
         titulo: 'Porcentajes',
         descripcion: 'Entiende los porcentajes y su aplicación.',
-        recursos: ['https://example.com/porcentajes']
+        recursos: ['https://example.com/porcentajes'],
+        actividades: [
+          {
+            tipo: 'ejercicio',
+            titulo: 'Cálculo de porcentajes',
+            descripcion: 'Aprende a calcular porcentajes básicos',
+            problemas: [
+              'Calcula el 50% de 200',
+              'Encuentra el 25% de 80',
+              '¿Cuál es el 10% de 350?'
+            ]
+          },
+          {
+            tipo: 'problema',
+            titulo: 'Descuentos y ofertas',
+            descripcion: 'Resuelve problemas con descuentos',
+            problemas: [
+              'Una camisa cuesta $100. Si tiene un 30% de descuento, ¿cuánto cuesta?',
+              'Si ahorras el 15% de tu mesada de $200, ¿cuánto ahorras?'
+            ]
+          },
+          {
+            tipo: 'juego',
+            titulo: 'Porcentajes en la vida diaria',
+            descripcion: 'Identifica porcentajes en situaciones cotidianas'
+          }
+        ]
       }
     ]
   },
@@ -209,7 +266,28 @@ const cursosData = [
       {
         titulo: 'Álgebra Básica',
         descripcion: 'Introducción al álgebra y sus conceptos.',
-        recursos: ['https://example.com/algebra']
+        recursos: ['https://example.com/algebra'],
+        actividades: [
+          {
+            tipo: 'ejercicio',
+            titulo: 'Expresiones algebraicas',
+            descripcion: 'Aprende a trabajar con variables',
+            problemas: [
+              'Si x = 5, calcula 2x + 3',
+              'Simplifica: 3x + 2x',
+              'Resuelve: x + 5 = 12'
+            ]
+          },
+          {
+            tipo: 'problema',
+            titulo: 'Problemas algebraicos',
+            descripcion: 'Plantea y resuelve ecuaciones',
+            problemas: [
+              'La edad de Juan más 7 es igual a 15. ¿Qué edad tiene Juan?',
+              'El doble de un número más 3 es igual a 11. ¿Cuál es el número?'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -365,7 +443,29 @@ const cursosData = [
       {
         titulo: 'Análisis de Textos',
         descripcion: 'Aprende a analizar diferentes tipos de textos.',
-        recursos: ['https://example.com/analisis']
+        recursos: ['https://example.com/analisis'],
+        actividades: [
+          {
+            tipo: 'lectura',
+            titulo: 'Tipos de textos',
+            descripcion: 'Identifica diferentes tipos de textos',
+            ejemplos: [
+              'Texto narrativo: cuentos y novelas',
+              'Texto informativo: noticias y artículos',
+              'Texto instructivo: recetas y manuales'
+            ]
+          },
+          {
+            tipo: 'escritura',
+            titulo: 'Creación de textos',
+            descripcion: 'Escribe diferentes tipos de textos',
+            problemas: [
+              'Escribe una noticia sobre un evento escolar',
+              'Crea una receta de tu plato favorito',
+              'Redacta un cuento de aventuras'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -378,7 +478,40 @@ const cursosData = [
       {
         titulo: 'Escritura Creativa',
         descripcion: 'Fomenta la creatividad en la escritura.',
-        recursos: ['https://example.com/escritura']
+        recursos: ['https://example.com/escritura'],
+        actividades: [
+          {
+            tipo: 'escritura',
+            titulo: 'Creación de poesía',
+            descripcion: 'Aprende diferentes estilos poéticos',
+            problemas: [
+              'Escribe un poema usando rimas',
+              'Crea un haiku sobre la naturaleza',
+              'Escribe un acróstico con tu nombre'
+            ]
+          },
+          {
+            tipo: 'narrativa',
+            titulo: 'Escritura de cuentos',
+            descripcion: 'Desarrolla historias creativas',
+            pasos: [
+              'Crea personajes principales',
+              'Establece el escenario',
+              'Desarrolla el conflicto',
+              'Escribe el desenlace'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Revista escolar',
+            descripcion: 'Crea una revista con diferentes tipos de textos',
+            problemas: [
+              'Escribe un artículo de opinión',
+              'Crea una sección de entrevistas',
+              'Diseña una sección de entretenimiento'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -391,7 +524,40 @@ const cursosData = [
       {
         titulo: 'Literatura Clásica',
         descripcion: 'Introducción a la literatura clásica.',
-        recursos: ['https://example.com/literatura']
+        recursos: ['https://example.com/literatura'],
+        actividades: [
+          {
+            tipo: 'lectura',
+            titulo: 'Mitos y leyendas',
+            descripcion: 'Explora historias clásicas',
+            problemas: [
+              'Lee y analiza el mito de Dédalo e Ícaro',
+              'Compara diferentes versiones de una leyenda',
+              'Crea tu propia leyenda urbana'
+            ]
+          },
+          {
+            tipo: 'análisis',
+            titulo: 'Análisis literario',
+            descripcion: 'Aprende a analizar textos literarios',
+            problemas: [
+              'Identifica los elementos de una novela corta',
+              'Analiza los personajes principales y secundarios',
+              'Describe el contexto histórico de la obra'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Teatro escolar',
+            descripcion: 'Adapta una obra clásica al teatro',
+            pasos: [
+              'Selecciona una obra clásica',
+              'Adapta el guión',
+              'Asigna personajes',
+              'Prepara la representación'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -495,7 +661,30 @@ const cursosData = [
       {
         titulo: 'Ecosistemas',
         descripcion: 'Conoce los diferentes ecosistemas del planeta.',
-        recursos: ['https://example.com/ecosistemas']
+        recursos: ['https://example.com/ecosistemas'],
+        actividades: [
+          {
+            tipo: 'investigación',
+            titulo: 'Tipos de ecosistemas',
+            descripcion: 'Investiga sobre diferentes ecosistemas',
+            problemas: [
+              'Describe el ecosistema del desierto',
+              'Investiga los animales de la selva tropical',
+              'Compara ecosistemas marinos y terrestres'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Maqueta de ecosistema',
+            descripcion: 'Crea una maqueta de un ecosistema',
+            materiales: [
+              'Cartón o caja',
+              'Plastilina',
+              'Papel de colores',
+              'Pegamento'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -508,7 +697,41 @@ const cursosData = [
       {
         titulo: 'La Tierra y el Espacio',
         descripcion: 'Aprende sobre la Tierra y el sistema solar.',
-        recursos: ['https://example.com/tierra']
+        recursos: ['https://example.com/tierra'],
+        actividades: [
+          {
+            tipo: 'investigación',
+            titulo: 'Sistema Solar',
+            descripcion: 'Explora los planetas y sus características',
+            problemas: [
+              'Describe las características de cada planeta',
+              'Compara los tamaños de los planetas',
+              'Investiga sobre los movimientos de la Tierra'
+            ]
+          },
+          {
+            tipo: 'experimento',
+            titulo: 'Fases de la Luna',
+            descripcion: 'Comprende las fases lunares',
+            materiales: [
+              'Linterna',
+              'Pelota de ping pong',
+              'Papel negro',
+              'Palillo'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Maqueta del Sistema Solar',
+            descripcion: 'Crea una representación del sistema solar',
+            materiales: [
+              'Bolas de diferentes tamaños',
+              'Pinturas',
+              'Cartulina negra',
+              'Alambre'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -521,7 +744,41 @@ const cursosData = [
       {
         titulo: 'Física Básica',
         descripcion: 'Introducción a conceptos básicos de física.',
-        recursos: ['https://example.com/fisica']
+        recursos: ['https://example.com/fisica'],
+        actividades: [
+          {
+            tipo: 'experimento',
+            titulo: 'Fuerzas y movimiento',
+            descripcion: 'Experimenta con diferentes fuerzas',
+            materiales: [
+              'Carritos de juguete',
+              'Rampas',
+              'Pesas pequeñas',
+              'Cronómetro'
+            ]
+          },
+          {
+            tipo: 'investigación',
+            titulo: 'Energía y sus formas',
+            descripcion: 'Estudia diferentes tipos de energía',
+            problemas: [
+              'Identifica formas de energía en tu casa',
+              'Explica la transformación de energía',
+              'Investiga sobre energías renovables'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Máquinas simples',
+            descripcion: 'Construye y explica máquinas simples',
+            materiales: [
+              'Poleas',
+              'Palancas',
+              'Planos inclinados',
+              'Materiales reciclados'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -611,7 +868,39 @@ const cursosData = [
       {
         titulo: 'Composición Musical',
         descripcion: 'Introducción a la composición musical.',
-        recursos: ['https://example.com/composicion']
+        recursos: ['https://example.com/composicion'],
+        actividades: [
+          {
+            tipo: 'teoría',
+            titulo: 'Elementos musicales',
+            descripcion: 'Aprende sobre melodía, ritmo y armonía',
+            ejemplos: [
+              'Identifica la melodía principal',
+              'Crea patrones rítmicos',
+              'Reconoce acordes básicos'
+            ]
+          },
+          {
+            tipo: 'práctica',
+            titulo: 'Composición básica',
+            descripcion: 'Crea pequeñas melodías',
+            pasos: [
+              'Elige una escala musical',
+              'Crea un patrón rítmico',
+              'Combina notas para formar una melodía'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Banda escolar',
+            descripcion: 'Forma parte de un conjunto musical',
+            actividades: [
+              'Elige un instrumento',
+              'Practica en grupo',
+              'Prepara una presentación'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -624,7 +913,34 @@ const cursosData = [
       {
         titulo: 'Teoría Musical',
         descripcion: 'Aprende los fundamentos de la teoría musical.',
-        recursos: ['https://example.com/teoria']
+        recursos: ['https://example.com/teoria'],
+        actividades: [
+          {
+            tipo: 'lectura',
+            titulo: 'Lectura musical',
+            descripcion: 'Aprende a leer partituras',
+            ejercicios: [
+              'Identifica notas en el pentagrama',
+              'Lee ritmos básicos',
+              'Reconoce símbolos musicales'
+            ]
+          },
+          {
+            tipo: 'práctica',
+            titulo: 'Interpretación',
+            descripcion: 'Interpreta piezas musicales simples',
+            piezas: [
+              'Melodías populares',
+              'Canciones tradicionales',
+              'Composiciones básicas'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Concierto grupal',
+            descripcion: 'Prepara una presentación musical'
+          }
+        ]
       }
     ]
   },
@@ -637,7 +953,34 @@ const cursosData = [
       {
         titulo: 'Historia de la Música',
         descripcion: 'Conoce la historia de la música a través de los tiempos.',
-        recursos: ['https://example.com/historia']
+        recursos: ['https://example.com/historia'],
+        actividades: [
+          {
+            tipo: 'investigación',
+            titulo: 'Períodos musicales',
+            descripcion: 'Explora diferentes épocas de la música',
+            temas: [
+              'Música medieval y renacentista',
+              'Período barroco y clásico',
+              'Música contemporánea'
+            ]
+          },
+          {
+            tipo: 'análisis',
+            titulo: 'Géneros musicales',
+            descripcion: 'Estudia diferentes estilos de música',
+            géneros: [
+              'Música clásica',
+              'Jazz y blues',
+              'Rock y pop'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Presentación musical histórica',
+            descripcion: 'Prepara una presentación sobre un período musical'
+          }
+        ]
       }
     ]
   },
@@ -727,7 +1070,36 @@ const cursosData = [
       {
         titulo: 'Técnicas de Grabado',
         descripcion: 'Aprende sobre técnicas de grabado.',
-        recursos: ['https://example.com/grabado']
+        recursos: ['https://example.com/grabado'],
+        actividades: [
+          {
+            tipo: 'técnica',
+            titulo: 'Grabado en relieve',
+            descripcion: 'Aprende técnicas básicas de grabado',
+            materiales: [
+              'Goma eva',
+              'Gubias',
+              'Tintas',
+              'Rodillo'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Estampación creativa',
+            descripcion: 'Crea diseños usando sellos y plantillas',
+            materiales: [
+              'Cartón',
+              'Pinturas',
+              'Papel',
+              'Materiales naturales'
+            ]
+          },
+          {
+            tipo: 'exposición',
+            titulo: 'Galería de grabados',
+            descripcion: 'Organiza una exposición con tus obras'
+          }
+        ]
       }
     ]
   },
@@ -740,7 +1112,39 @@ const cursosData = [
       {
         titulo: 'Arte Digital',
         descripcion: 'Introducción al arte digital y sus herramientas.',
-        recursos: ['https://example.com/arte-digital']
+        recursos: ['https://example.com/arte-digital'],
+        actividades: [
+          {
+            tipo: 'digital',
+            titulo: 'Dibujo digital',
+            descripcion: 'Aprende a usar herramientas de dibujo digital',
+            herramientas: [
+              'Tableta gráfica',
+              'Software de dibujo',
+              'Herramientas de edición'
+            ]
+          },
+          {
+            tipo: 'diseño',
+            titulo: 'Diseño gráfico básico',
+            descripcion: 'Crea carteles y diseños simples',
+            proyectos: [
+              'Diseño de logo',
+              'Cartel para evento escolar',
+              'Tarjeta de felicitación'
+            ]
+          },
+          {
+            tipo: 'animación',
+            titulo: 'Animación básica',
+            descripcion: 'Crea animaciones simples',
+            pasos: [
+              'Storyboard',
+              'Diseño de personajes',
+              'Animación cuadro por cuadro'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -753,7 +1157,39 @@ const cursosData = [
       {
         titulo: 'Proyectos Artísticos',
         descripcion: 'Desarrolla proyectos artísticos completos.',
-        recursos: ['https://example.com/proyectos']
+        recursos: ['https://example.com/proyectos'],
+        actividades: [
+          {
+            tipo: 'multimedia',
+            titulo: 'Arte multimedia',
+            descripcion: 'Combina diferentes técnicas artísticas',
+            técnicas: [
+              'Fotografía',
+              'Video',
+              'Instalación artística'
+            ]
+          },
+          {
+            tipo: 'exposición',
+            titulo: 'Exposición final',
+            descripcion: 'Prepara una exposición de arte',
+            pasos: [
+              'Selección de obras',
+              'Montaje de exposición',
+              'Presentación al público'
+            ]
+          },
+          {
+            tipo: 'portfolio',
+            titulo: 'Portfolio artístico',
+            descripcion: 'Crea tu portfolio de trabajos',
+            elementos: [
+              'Selección de mejores obras',
+              'Documentación del proceso',
+              'Presentación digital'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -853,7 +1289,39 @@ const cursosData = [
       {
         titulo: 'Lectura y Comprensión',
         descripcion: 'Desarrolla habilidades de lectura en inglés.',
-        recursos: ['https://example.com/lectura']
+        recursos: ['https://example.com/lectura'],
+        actividades: [
+          {
+            tipo: 'lectura',
+            titulo: 'Reading comprehension',
+            descripcion: 'Practice reading and understanding texts',
+            textos: [
+              'Short stories',
+              'Simple articles',
+              'Comic strips'
+            ]
+          },
+          {
+            tipo: 'vocabulario',
+            titulo: 'Vocabulary building',
+            descripcion: 'Learn new words and expressions',
+            temas: [
+              'Daily routines',
+              'School subjects',
+              'Hobbies and interests'
+            ]
+          },
+          {
+            tipo: 'conversación',
+            titulo: 'Speaking practice',
+            descripcion: 'Practice speaking in English',
+            actividades: [
+              'Role-playing',
+              'Show and tell',
+              'Group discussions'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -866,7 +1334,39 @@ const cursosData = [
       {
         titulo: 'Escritura en Inglés',
         descripcion: 'Aprende a escribir en inglés.',
-        recursos: ['https://example.com/escritura']
+        recursos: ['https://example.com/escritura'],
+        actividades: [
+          {
+            tipo: 'writing',
+            titulo: 'Creative writing',
+            descripcion: 'Write short stories and descriptions',
+            ejercicios: [
+              'Write a story about your last vacation',
+              'Describe your best friend',
+              'Create a diary entry'
+            ]
+          },
+          {
+            tipo: 'grammar',
+            titulo: 'Grammar practice',
+            descripcion: 'Learn and practice grammar rules',
+            temas: [
+              'Present perfect',
+              'Past continuous',
+              'Future with "going to"'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Class magazine',
+            descripcion: 'Create an English class magazine',
+            secciones: [
+              'News articles',
+              'Interviews',
+              'Stories and poems'
+            ]
+          }
+        ]
       }
     ]
   },
@@ -879,7 +1379,40 @@ const cursosData = [
       {
         titulo: 'Conversación en Inglés',
         descripcion: 'Desarrolla habilidades de conversación en inglés.',
-        recursos: ['https://example.com/conversacion']
+        recursos: ['https://example.com/conversacion'],
+        actividades: [
+          {
+            tipo: 'speaking',
+            titulo: 'Public speaking',
+            descripcion: 'Practice giving presentations in English',
+            temas: [
+              'My favorite book/movie',
+              'My future plans',
+              'Environmental issues'
+            ]
+          },
+          {
+            tipo: 'debate',
+            titulo: 'Debate club',
+            descripcion: 'Participate in English debates',
+            tópicos: [
+              'Social media',
+              'School uniforms',
+              'Healthy eating'
+            ]
+          },
+          {
+            tipo: 'proyecto',
+            titulo: 'Mini documentary',
+            descripcion: 'Create and present a documentary in English',
+            pasos: [
+              'Choose a topic',
+              'Research and script writing',
+              'Filming and editing',
+              'Presentation'
+            ]
+          }
+        ]
       }
     ]
   }

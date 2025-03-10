@@ -27,6 +27,7 @@ const authMiddleware = require('./middleware/auth');
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/cursos', cursosRoutes);
 app.use('/api/actividades', require('./routes/actividades.routes'));
+app.use('/api/progreso', require('./routes/progreso.routes'));
 
 // Rutas protegidas
 app.use('/api/cursos', authMiddleware, require('./routes/cursos.routes'));

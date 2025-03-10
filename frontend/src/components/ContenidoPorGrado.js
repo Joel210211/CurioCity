@@ -27,6 +27,8 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import SchoolIcon from '@mui/icons-material/School';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import QuizIcon from '@mui/icons-material/Quiz';
+import ActividadProgress from './ActividadProgress';
+import { useAuth } from '../context/AuthContext';
 
 const ContenidoPorGrado = () => {
     const { grado } = useParams();
@@ -348,6 +350,12 @@ const ContenidoPorGrado = () => {
                                                         {item.actividades && Array.isArray(item.actividades) && item.actividades.length > 0 ? (
                                                             item.actividades.map((actividad, idx) => (
                                                                 <Grid item xs={12} md={6} key={idx}>
+                                                                    <ActividadProgress 
+                                                                        actividad={actividad}
+                                                                        cursoId={curso._id}
+                                                                        contenidoId={item._id}
+                                                                        indiceActividad={idx}
+                                                                    />
                                                                     <Card variant="outlined">
                                                                         <CardContent>
                                                                             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
@@ -391,16 +399,6 @@ const ContenidoPorGrado = () => {
                                                                                     ))}
                                                                                 </List>
                                                                             )}
-
-                                                                            <Button 
-                                                                                variant="contained" 
-                                                                                color="primary"
-                                                                                fullWidth
-                                                                                sx={{ mt: 2 }}
-                                                                                startIcon={<SchoolIcon />}
-                                                                            >
-                                                                                Comenzar Actividad
-                                                                            </Button>
                                                                         </CardContent>
                                                                     </Card>
                                                                 </Grid>

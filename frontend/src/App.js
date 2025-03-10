@@ -4,6 +4,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from './theme';
 import { AuthProvider } from './context/AuthContext';
+import { ProgressProvider } from './context/ProgressContext';
 
 // Componentes
 import Navbar from './components/Navbar';
@@ -29,37 +30,39 @@ function App() {
       <CssBaseline />
       <Router>
         <AuthProvider>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/interactive-content" element={<InteractiveContent />} />
-            <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
-            <Route path="/cursos" element={<Cursos />} />
-            {/* Rutas para el contenido interactivo */}
-            <Route path="/quizzes" element={<InteractiveContent />} />
-            <Route path="/games" element={<InteractiveContent />} />
-            <Route path="/readings" element={<InteractiveContent />} />
-            <Route path="/experiments" element={<InteractiveContent />} />
-            <Route path="/perfil" element={<Perfil />} />
-            
-            {/* Rutas de materias */}
-            <Route path="/matematicas" element={<Matematicas />} />
-            <Route path="/lengua" element={<Lengua />} />
-            <Route path="/plastica" element={<Plastica />} />
-            <Route path="/musica" element={<Musica />} />
-            <Route path="/ingles" element={<Ingles />} />
-            <Route path="/ciencias" element={<Ciencias />} />
+          <ProgressProvider>
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/interactive-content" element={<InteractiveContent />} />
+              <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
+              <Route path="/cursos" element={<Cursos />} />
+              {/* Rutas para el contenido interactivo */}
+              <Route path="/quizzes" element={<InteractiveContent />} />
+              <Route path="/games" element={<InteractiveContent />} />
+              <Route path="/readings" element={<InteractiveContent />} />
+              <Route path="/experiments" element={<InteractiveContent />} />
+              <Route path="/perfil" element={<Perfil />} />
+              
+              {/* Rutas de materias */}
+              <Route path="/matematicas" element={<Matematicas />} />
+              <Route path="/lengua" element={<Lengua />} />
+              <Route path="/plastica" element={<Plastica />} />
+              <Route path="/musica" element={<Musica />} />
+              <Route path="/ingles" element={<Ingles />} />
+              <Route path="/ciencias" element={<Ciencias />} />
 
-            {/* Rutas para contenido por grado de cada materia */}
-            <Route path="/matematicas/:grado" element={<ContenidoPorGrado />} />
-            <Route path="/lengua/:grado" element={<ContenidoPorGrado />} />
-            <Route path="/plastica/:grado" element={<ContenidoPorGrado />} />
-            <Route path="/musica/:grado" element={<ContenidoPorGrado />} />
-            <Route path="/ingles/:grado" element={<ContenidoPorGrado />} />
-            <Route path="/ciencias/:grado" element={<ContenidoPorGrado />} />
-          </Routes>
+              {/* Rutas para contenido por grado de cada materia */}
+              <Route path="/matematicas/:grado" element={<ContenidoPorGrado />} />
+              <Route path="/lengua/:grado" element={<ContenidoPorGrado />} />
+              <Route path="/plastica/:grado" element={<ContenidoPorGrado />} />
+              <Route path="/musica/:grado" element={<ContenidoPorGrado />} />
+              <Route path="/ingles/:grado" element={<ContenidoPorGrado />} />
+              <Route path="/ciencias/:grado" element={<ContenidoPorGrado />} />
+            </Routes>
+          </ProgressProvider>
         </AuthProvider>
       </Router>
     </ThemeProvider>
