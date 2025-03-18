@@ -51,7 +51,7 @@ function Navbar() {
   };
 
   const navItems = usuario ? [
-    { text: 'Cerrar Sesión', action: handleLogout }
+    { text: 'Cerrar Sesión', action: handleLogout },
   ] : [
     { text: 'Iniciar Sesión', path: '/login' },
     { text: 'Registrarse', path: '/register' }

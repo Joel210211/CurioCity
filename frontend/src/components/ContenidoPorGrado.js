@@ -33,6 +33,7 @@ import { useAuth } from '../context/AuthContext';
 const ContenidoPorGrado = () => {
     const { grado } = useParams();
     const location = useLocation();
+    const { usuario } = useAuth();
     const [cursos, setCursos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -142,6 +143,12 @@ const ContenidoPorGrado = () => {
             console.log('No se encontró materia válida');
         }
     }, [grado, materia]);
+
+    useEffect(() => {
+        if (usuario) {
+            console.log(`Bienvenido, ${usuario.nombre}`);
+        }
+    }, [usuario]);
 
     if (loading) return (
         <Container>

@@ -1,47 +1,191 @@
-import React from 'react';
-import { 
-  Container, 
-  Typography, 
-  Button,
-  Box,
-  Grid,
-  Card,
-  CardContent
-} from '@mui/material';
-import { Link } from 'react-router-dom';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
-import SchoolIcon from '@mui/icons-material/School';
-import GroupIcon from '@mui/icons-material/Group';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import '../styles/Home.css';
-import '../components/Footer'
-import Footer from '../components/Footer';
+"use client"
+
+import { useEffect, useState, useRef } from "react"
+import { Container, Typography, Button, Box, Grid, Card, CardContent, IconButton } from "@mui/material"
+import { Link } from "react-router-dom"
+import MenuBookIcon from "@mui/icons-material/MenuBook"
+import SchoolIcon from "@mui/icons-material/School"
+import GroupIcon from "@mui/icons-material/Group"
+import EmojiEventsIcon from "@mui/icons-material/EmojiEvents"
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward"
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports"
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions"
+import PetsIcon from "@mui/icons-material/Pets"
+import MusicNoteIcon from "@mui/icons-material/MusicNote"
+import "../styles/Home.css"
+import "../components/Footer"
+import Footer from "../components/Footer"
+
+// Componente para animación al hacer scroll
+function AnimateOnScroll({ children, threshold = 0.1 }) {
+  const [isVisible, setIsVisible] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.unobserve(entry.target)
+        }
+      },
+      { threshold },
+    )
+
+    const currentRef = ref.current
+    if (currentRef) {
+      observer.observe(currentRef)
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [threshold])
+
+  return (
+    <div
+      ref={ref}
+      className={`animate-on-scroll ${isVisible ? "visible" : ""}`}
+      style={{ transitionDelay: `${Math.random() * 0.3}s` }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function ScrollToTopButton() {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setIsVisible(true)
+      } else {
+        setIsVisible(false)
+      }
+    }
+
+    window.addEventListener("scroll", toggleVisibility)
+    return () => window.removeEventListener("scroll", toggleVisibility)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
+
+  return (
+    <IconButton
+      onClick={scrollToTop}
+      className="scroll-to-top"
+      style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        display: isVisible ? "flex" : "none",
+        backgroundColor: '#ffeb3b',
+        color: '#000',
+        zIndex: 1000,
+        borderRadius: '50%',
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+      }}
+      aria-label="Scroll to top"
+    >
+      <ArrowUpwardIcon />
+    </IconButton>
+  )
+}
+
+// Componente para las nubes decorativas
+function CloudDecoration() {
+  return (
+    <div className="cloud-decoration">
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="cloud"
+          style={{
+            top: `${Math.random() * 80}%`,
+            left: `${Math.random() * 100}%`,
+            animationDuration: `${20 + Math.random() * 10}s`,
+            animationDelay: `${Math.random() * 5}s`,
+            opacity: 0.7 + Math.random() * 0.3,
+            transform: `scale(${0.5 + Math.random() * 0.5})`,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
 
 function Home() {
   const features = [
     {
       icon: <MenuBookIcon fontSize="large" />,
-      title: 'Contenido Interactivo',
-      description: 'Aprende con lecciones interactivas y ejercicios prácticos diseñados para cada nivel.',
-      path: '/interactive-content'
+      title: "Contenido Interactivo",
+      description: "¡Aprende jugando con lecciones divertidas y ejercicios que parecen juegos!",
+      path: "/interactive-content",
     },
     {
       icon: <SchoolIcon fontSize="large" />,
-      title: 'Profesores Expertos',
-      description: 'Nuestros profesores están altamente calificados y dedicados a tu aprendizaje.',
-      path: '/profesores-expertos'
+      title: "Profesores Amigos",
+      description: "Nuestros profes son súper divertidos y te ayudarán en toda tu aventura de aprendizaje.",
+      path: "/profesores-expertos",
     },
     {
       icon: <GroupIcon fontSize="large" />,
-      title: 'Aprendizaje Colaborativo',
-      description: 'Participa en actividades grupales y aprende junto a tus compañeros.'
+      title: "Aprende con Amigos",
+      description: "¡Haz equipo con tus compañeros y resuelvan desafíos juntos como verdaderos héroes!",
     },
     {
       icon: <EmojiEventsIcon fontSize="large" />,
-      title: 'Sistema de Logros',
-      description: 'Gana medallas y reconocimientos mientras avanzas en tu aprendizaje.'
-    }
-  ];
+      title: "¡Gana Premios!",
+      description: "Colecciona medallas, trofeos y sorpresas mientras aprendes y superas niveles.",
+    },
+  ]
+
+  const subjects = [
+    {
+      title: "Matemáticas",
+      description: "¡Conviértete en un mago de los números y resuelve problemas como un superhéroe!",
+      path: "/matematicas",
+      icon: <SportsEsportsIcon fontSize="large" style={{ color: "#d32f2f" }} />,
+    },
+    {
+      title: "Lengua",
+      description: "¡Aprende a contar historias increíbles y ser el mejor narrador de aventuras!",
+      path: "/lengua",
+      icon: <EmojiEmotionsIcon fontSize="large" style={{ color: "#9c27b0" }} />,
+    },
+    {
+      title: "Ciencias",
+      description: "¡Explora el mundo como un científico y descubre todos sus secretos!",
+      path: "/ciencias",
+      icon: <PetsIcon fontSize="large" style={{ color: "#4caf50" }} />,
+    },
+    {
+      title: "Inglés",
+      description: "¡Aprende un idioma mágico que te permitirá hablar con amigos de todo el mundo!",
+      path: "/ingles",
+      icon: <SportsEsportsIcon fontSize="large" style={{ color: "#2196f3" }} />,
+    },
+    {
+      title: "Música",
+      description: "¡Crea melodías increíbles y conviértete en una estrella musical!",
+      path: "/musica",
+      icon: <MusicNoteIcon fontSize="large" style={{ color: "#ff9800" }} />,
+    },
+    {
+      title: "Plástica",
+      description: "¡Libera tu imaginación y crea obras de arte tan geniales como tú!",
+      path: "/plastica",
+      icon: <EmojiEmotionsIcon fontSize="large" style={{ color: "#e91e63" }} />,
+    },
+  ]
 
   return (
     <div className="home-page">
@@ -50,19 +194,13 @@ function Home() {
         <Container>
           <div className="hero-content">
             <Typography variant="h2" className="hero-title">
-              Bienvenido a Tu Patio de Juegos
+              ¡Bienvenido a Tu Patio de Juegos!
             </Typography>
             <Typography variant="h5" className="hero-subtitle">
-              Aprende, crece y diviértete con nuestra plataforma educativa diseñada especialmente para ti
+              ¡Aprende, crece y diviértete en esta increíble aventura educativa hecha especialmente para ti!
             </Typography>
-            <Button 
-              component={Link} 
-              to="/register" 
-              variant="contained" 
-              size="large"
-              className="hero-button"
-            >
-              Comienza Ahora
+            <Button component={Link} to="/register" variant="contained" size="large" className="hero-button">
+              ¡Comienza Tu Aventura!
             </Button>
           </div>
         </Container>
@@ -71,31 +209,29 @@ function Home() {
       {/* Sección de Características */}
       <Container className="features-section">
         <Typography variant="h3" className="section-title">
-          ¿Por qué elegirnos?
+          ¿Por qué te va a encantar?
         </Typography>
         <Grid container spacing={4}>
           {features.map((feature, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
-            <Card className="feature-card">
-              <Box 
-                component={feature.path ? Link : 'div'} 
-                to={feature.path} 
-                style={{ textDecoration: 'none', width: '100%', height: '100%' }}
-              >
-                <CardContent>
-                  <Box className="feature-icon">
-                    {feature.icon}
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <AnimateOnScroll>
+                <Card className="feature-card">
+                  <Box
+                    component={feature.path ? Link : "div"}
+                    to={feature.path}
+                    style={{ textDecoration: "none", width: "100%", height: "100%" }}
+                  >
+                    <CardContent>
+                      <Box className="feature-icon">{feature.icon}</Box>
+                      <Typography variant="h5" className="feature-title">
+                        {feature.title}
+                      </Typography>
+                      <Typography className="feature-description">{feature.description}</Typography>
+                    </CardContent>
                   </Box>
-                  <Typography variant="h5" className="feature-title">
-                    {feature.title}
-                  </Typography>
-                  <Typography className="feature-description">
-                    {feature.description}
-                  </Typography>
-                </CardContent>
-              </Box>
-            </Card>
-          </Grid>
+                </Card>
+              </AnimateOnScroll>
+            </Grid>
           ))}
         </Grid>
       </Container>
@@ -103,98 +239,29 @@ function Home() {
       {/* Sección de Materias */}
       <Container className="subjects-section">
         <Typography variant="h3" className="section-title">
-          Nuestras Materias
+          Nuestras Aventuras de Aprendizaje
         </Typography>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className="subject-card">
-              <CardContent>
-                <Typography variant="h5" className="subject-title">
-                  Matemáticas
-                </Typography>
-                <Typography className="subject-description">
-                  Aprende matemáticas de forma divertida con ejercicios interactivos.
-                </Typography>
-                <Button component={Link} to="/matematicas" variant="contained">
-                  Ver Más
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className="subject-card">
-              <CardContent>
-                <Typography variant="h5" className="subject-title">
-                  Lengua
-                </Typography>
-                <Typography className="subject-description">
-                  Mejora tus habilidades de lectura y escritura con actividades dinámicas.
-                </Typography>
-                <Button component={Link} to="/lengua" variant="contained">
-                  Ver Más
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className="subject-card">
-              <CardContent>
-                <Typography variant="h5" className="subject-title">
-                  Ciencias
-                </Typography>
-                <Typography className="subject-description">
-                  Descubre el fascinante mundo de las ciencias naturales.
-                </Typography>
-                <Button component={Link} to="/ciencias" variant="contained">
-                  Ver Más
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className="subject-card">
-              <CardContent>
-                <Typography variant="h5" className="subject-title">
-                  Inglés
-                </Typography>
-                <Typography className="subject-description">
-                  Aprende inglés con métodos interactivos y conversaciones prácticas.
-                </Typography>
-                <Button component={Link} to="/ingles" variant="contained">Ver Más</Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className="subject-card">
-              <CardContent>
-                <Typography variant="h5" className="subject-title">
-                  Música
-                </Typography>
-                <Typography className="subject-description">
-                  Explora el mundo de la música a través de teoría y práctica instrumental.
-                </Typography>
-                <Button component={Link} to="/musica" variant="contained">Ver Más</Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={4}>
-            <Card className="subject-card">
-              <CardContent>
-                <Typography variant="h5" className="subject-title">
-                  Plastica
-                </Typography>
-                <Typography className="subject-description">
-                  Desarrolla tu creatividad con diferentes técnicas artísticas y proyectos.
-                </Typography>
-                <Button component={Link} to="/plastica" variant="contained">Ver Más</Button>
-              </CardContent>
-            </Card>
-          </Grid>
+          {subjects.map((subject, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <AnimateOnScroll>
+                <Card className="subject-card">
+                  <CardContent>
+                    <Box display="flex" alignItems="center" mb={2}>
+                      {subject.icon}
+                      <Typography variant="h5" className="subject-title" ml={1}>
+                        {subject.title}
+                      </Typography>
+                    </Box>
+                    <Typography className="subject-description">{subject.description}</Typography>
+                    <Button component={Link} to={subject.path} variant="contained">
+                      ¡Explorar!
+                    </Button>
+                  </CardContent>
+                </Card>
+              </AnimateOnScroll>
+            </Grid>
+          ))}
         </Grid>
       </Container>
 
@@ -202,26 +269,22 @@ function Home() {
       <Box className="cta-section">
         <Container>
           <Typography variant="h3" className="cta-title">
-            ¿Listo para comenzar tu viaje educativo?
+            ¿Listo para comenzar tu gran aventura?
           </Typography>
           <Typography variant="h6" className="cta-subtitle">
-            Únete a nuestra comunidad de estudiantes y comienza a aprender hoy mismo
+            ¡Únete a nuestra comunidad de exploradores del conocimiento y comienza a descubrir un mundo lleno de
+            diversión!
           </Typography>
-          <Button 
-            component={Link} 
-            to="/register" 
-            variant="contained" 
-            size="large"
-            className="cta-button"
-          >
-            Registrarse Ahora
+          <Button component={Link} to="/register" variant="contained" size="large" className="cta-button">
+            ¡Quiero Unirme Ahora!
           </Button>
         </Container>
       </Box>
-      <Footer/>
+      <ScrollToTopButton />
+      <Footer />
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home
 
