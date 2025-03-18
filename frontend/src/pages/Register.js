@@ -142,6 +142,10 @@ function Register() {
     })
   }
 
+  useEffect(() => {
+    window.scrollTo(0, 0); // Desplazar hacia arriba al cargar la página
+  }, []);
+
   return (
     <main>
       <Container className="register-container">

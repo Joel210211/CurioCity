@@ -213,25 +213,25 @@ function Home() {
         </Typography>
         <Grid container spacing={4}>
           {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
+          <Grid item xs={12} sm={6} md={3} key={index}>
               <AnimateOnScroll>
-                <Card className="feature-card">
-                  <Box
+            <Card className="feature-card">
+              <Box 
                     component={feature.path ? Link : "div"}
-                    to={feature.path}
+                to={feature.path} 
                     style={{ textDecoration: "none", width: "100%", height: "100%" }}
-                  >
-                    <CardContent>
+              >
+                <CardContent>
                       <Box className="feature-icon">{feature.icon}</Box>
-                      <Typography variant="h5" className="feature-title">
-                        {feature.title}
-                      </Typography>
+                  <Typography variant="h5" className="feature-title">
+                    {feature.title}
+                  </Typography>
                       <Typography className="feature-description">{feature.description}</Typography>
-                    </CardContent>
-                  </Box>
-                </Card>
+                </CardContent>
+              </Box>
+            </Card>
               </AnimateOnScroll>
-            </Grid>
+          </Grid>
           ))}
         </Grid>
       </Container>
@@ -245,22 +245,22 @@ function Home() {
           {subjects.map((subject, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <AnimateOnScroll>
-                <Card className="subject-card">
-                  <CardContent>
+            <Card className="subject-card">
+              <CardContent>
                     <Box display="flex" alignItems="center" mb={2}>
                       {subject.icon}
                       <Typography variant="h5" className="subject-title" ml={1}>
                         {subject.title}
-                      </Typography>
+                </Typography>
                     </Box>
                     <Typography className="subject-description">{subject.description}</Typography>
                     <Button component={Link} to={subject.path} variant="contained">
                       ¡Explorar!
-                    </Button>
-                  </CardContent>
-                </Card>
+                </Button>
+              </CardContent>
+            </Card>
               </AnimateOnScroll>
-            </Grid>
+          </Grid>
           ))}
         </Grid>
       </Container>

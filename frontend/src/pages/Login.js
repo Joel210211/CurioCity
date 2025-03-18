@@ -1,6 +1,6 @@
 
 
-import { useState } from "react"
+import { useState, useEffect} from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { Container, Paper, TextField, Button, Typography, Alert, Box } from "@mui/material"
 import { useAuth } from "../context/AuthContext"
@@ -49,6 +49,10 @@ function Login() {
       [e.target.name]: e.target.value,
     })
   }
+
+  useEffect(() =>{
+    window.scrollTo(0,0);// desplazamiento automatico hacia arriba
+  }, []);
 
   return (
     <main>
