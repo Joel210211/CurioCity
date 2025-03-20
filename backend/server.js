@@ -3,7 +3,13 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
+//importar rutas de cursos y perfil
 const cursosRoutes = require('./routes/cursos.routes');
+const authRoutes = require('./routes/auth.routes');
+const perfilRoutes = require('./routes/perfil.routes');
+const actividadesRoutes = require('./routes/actividades.routes');
+const progresoRoutes = require('./routes/progreso.routes');
 
 const app = express();
 const jwtSecret = process.env.JWT_SECRET;
@@ -11,7 +17,9 @@ const jwtSecret = process.env.JWT_SECRET;
 // Middleware
 app.use(cors({
     origin: 'http://localhost:3000',
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization']
 }));
 app.use(express.json());
 
@@ -23,14 +31,19 @@ mongoose.connect(process.env.MONGODB_URI)
 // Middleware de autenticación
 const authMiddleware = require('./middleware/auth');
 
-// Rutas
-app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/cursos', cursosRoutes);
-app.use('/api/actividades', require('./routes/actividades.routes'));
-app.use('/api/progreso', require('./routes/progreso.routes'));
+// Rutas públicas
+app.use('/api/auth', authRoutes);
 
-// Rutas protegidas
-app.use('/api/cursos', authMiddleware, require('./routes/cursos.routes'));
+// Ruta de prueba para verificar si el servidor funciona
+app.get('/api/test', (req, res) => {
+  res.json({ success: true, msg: 'API funcionando correctamente' });
+});
+
+// Rutas protegidas (con autenticación)
+app.use('/api/cursos', authMiddleware, cursosRoutes);
+app.use('/api/actividades', authMiddleware, actividadesRoutes);
+app.use('/api/progreso', authMiddleware, progresoRoutes);
+app.use('/api/perfil', authMiddleware, perfilRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -54,13 +54,12 @@ router.post("/register", async (req, res) => {
 
       // Ahora que tenemos el token, creamos el perfil
       try {
-        await fetch("http://localhost:5000/api/perfil/crear", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth-token": token,
-          },
-        })
+        const perfilExistente = await Perfil.findOne({ usuarioId: usuario.id });
+         if (!perfilExistente) {
+           const nuevoPerfil = new Perfil({ usuarioId: usuario.id });
+           await nuevoPerfil.save();
+           console.log("Perfil creado exitosamente");
+    }
       } catch (perfilError) {
         console.error("Error al crear el perfil:", perfilError)
         // No devolvemos error al cliente, solo lo registramos

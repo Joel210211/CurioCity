@@ -1,131 +1,271 @@
 .navbar {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+  background: linear-gradient(135deg, #4caf50 0%, #2196f3 100%) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 5px solid #ffeb3b;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+/* Decoración inferior */
+.navbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: repeating-linear-gradient(45deg, #ffeb3b, #ffeb3b 20px, #ff9800 20px, #ff9800 40px);
+  z-index: 999;
+  transform: translateY(5px);
+}
+
+.toolbar {
+  padding: 0.7rem 2rem !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.navbar-brand {
+  text-decoration: none;
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+  font-size: 2.2rem !important;
+  display: flex;
+  align-items: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05) rotate(-2deg);
+}
+
+.curio {
+  color: #ffeb3b;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+}
+
+.city {
+  color: white;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+  margin-left: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nav-button {
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1.5rem !important;
+  border-radius: 25px !important;
+  text-transform: none !important;
+  font-size: 1.1rem !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border: 2px solid transparent !important;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.nav-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.nav-button:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-3px);
+  border-color: #ffeb3b !important;
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+.nav-button:hover::before {
+  left: 100%;
+}
+
+.nav-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el botón de cuenta */
+.account-button {
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1.5rem !important;
+  border-radius: 25px !important;
+  text-transform: none !important;
+  font-size: 1.1rem !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border: 2px solid #ffeb3b !important;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease !important;
+}
+
+.account-button:hover {
+  background-color: #ffeb3b !important;
+  color: #333 !important;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+}
+
+.account-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el menú desplegable */
+.account-menu {
+  margin-top: 8px;
+  border-radius: 15px !important;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.menu-item {
+  padding: 10px 20px !important;
+  font-family: "Comic Sans MS", cursive, sans-serif !important;
+  font-size: 1.1rem !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+}
+
+.menu-item::after {
+  content: '★';
+  position: absolute;
+  right: 15px;
+  color: transparent;
+  transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+  background: linear-gradient(135deg, #4caf50 0%, #2196f3 100%) !important;
+  color: white !important;
+  padding-left: 30px !important;
+}
+
+.menu-item:hover::after {
+  color: #ffeb3b;
+  transform: rotate(360deg) scale(1.2);
+}
+
+/* Estilos para el botón de retroceso */
+.back-button {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  margin-right: 10px !important;
+  padding: 8px !important;
+  transition: all 0.3s ease !important;
+  border: 2px solid transparent !important;
+}
+
+.back-button:hover {
+  background-color: #ffeb3b !important;
+  color: #333 !important;
+  transform: scale(1.1);
+}
+
+/* Estilos para el menú móvil */
+.menu-button {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  padding: 8px !important;
+  transition: all 0.3s ease !important;
+  border: 2px solid transparent !important;
+}
+
+.menu-button:hover {
+  background-color: #ffeb3b !important;
+  color: #333 !important;
+  transform: scale(1.1);
+  border-color: white !important;
+}
+
+.drawer-paper {
+  background: linear-gradient(135deg, #4caf50 0%, #2196f3 100%) !important;
+  width: 280px;
+  padding: 1rem 0;
+  border-left: 5px solid #ffeb3b;
+}
+
+.mobile-nav-list {
+  padding: 1.5rem;
+}
+
+.mobile-nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  display: block;
+  padding: 0.7rem 0;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.mobile-nav-link:hover {
+  color: #ffeb3b;
+  transform: translateX(10px);
+}
+
+/* Burbujas animadas para el navbar */
+.navbar-bubbles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.navbar-bubble {
+  position: absolute;
+  bottom: -50px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: float linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.2;
   }
-  
+  100% {
+    transform: translate(100px, -100px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Media queries */
+@media (max-width: 600px) {
   .toolbar {
-    padding: 0.5rem 2rem !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 0.5rem 1rem !important;
   }
-  
+
   .navbar-brand {
-    text-decoration: none;
-    font-weight: 700 !important;
-    letter-spacing: 1px;
-    font-size: 2rem !important;
-    display: flex;
-    align-items: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
+    font-size: 1.8rem !important;
   }
-  
-  .navbar-brand:hover {
-    transform: scale(1.05);
-  }
-  
-  .curio {
-    color: #ff6b00;
-    background: linear-gradient(45deg, #ff6b00, #ff8533);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .city {
-    color: #ffffff;
-    margin-left: 2px;
-  }
-  
-  .nav-links {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .nav-button {
-    color: white !important;
-    font-weight: 500 !important;
-    padding: 0.5rem 1.5rem !important;
-    border-radius: 25px !important;
-    text-transform: none !important;
-    font-size: 1rem !important;
-    transition: all 0.3s ease !important;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .nav-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transition: 0.5s;
-  }
-  
-  .nav-button:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    transform: translateY(-2px);
-  }
-  
-  .nav-button:hover::before {
-    left: 100%;
-  }
-  
-  /* Estilos para el menú móvil */
-  .menu-button {
-    color: white !important;
-  }
-  
-  .drawer-paper {
-    background-color: #1a1a1a !important;
-    width: 240px;
-    padding: 1rem 0;
-  }
-  
-  .mobile-nav-list {
-    padding: 1rem;
-  }
-  
-  .mobile-nav-link {
-    color: white;
-    text-decoration: none;
-    font-size: 1.1rem;
-    display: block;
-    padding: 0.5rem 0;
-  }
-  
-  /* Animación para el botón de menú */
-  @keyframes pulse {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.1);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
-  .menu-button:hover {
-    animation: pulse 1s infinite;
-  }
-  
-  /* Media queries */
-  @media (max-width: 600px) {
-    .toolbar {
-      padding: 0.5rem 1rem !important;
-    }
-  
-    .navbar-brand {
-      font-size: 1.5rem !important;
-    }
-  }
+}

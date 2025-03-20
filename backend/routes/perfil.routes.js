@@ -1,15 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const Perfil = require('../models/Perfil');
-const authMiddleware = require('../middleware/auth');
+const auth = require('../middleware/auth');
 
 // Obtener perfil del usuario autenticado
-router.get('/', authMiddleware, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
+    console.log('Buscando perfil para usuario ID:', req.usuario.id);
     const perfil = await Perfil.findOne({ usuarioId: req.usuario.id });
+    
     if (!perfil) {
-      return res.status(404).json({ success: false, msg: 'Perfil no encontrado' });
+      console.log('Perfil no encontrado, creando uno nuevo');
+      // Si no existe el perfil, lo creamos automáticamente
+      const nuevoPerfil = new Perfil({ 
+        usuarioId: req.usuario.id,
+        progreso: 0,
+        tareas: []
+      });
+      await nuevoPerfil.save();
+      return res.json({ success: true, perfil: nuevoPerfil });
     }
+    
     res.json({ success: true, perfil });
   } catch (err) {
     console.error('Error al obtener el perfil:', err);
@@ -18,8 +29,9 @@ router.get('/', authMiddleware, async (req, res) => {
 });
 
 // Crear perfil al registrar usuario
-router.post('/crear', authMiddleware, async (req, res) => {
+router.post('/crear', auth, async (req, res) => {
   try {
+    console.log('Creando perfil para usuario ID:', req.usuario.id);
     const perfilExistente = await Perfil.findOne({ usuarioId: req.usuario.id });
     if (perfilExistente) {
       return res.status(400).json({ success: false, msg: 'El perfil ya existe' });

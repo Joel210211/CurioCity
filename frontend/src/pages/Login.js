@@ -35,7 +35,17 @@ function Login() {
         return
       }
 
-      await login(data.token)
+      // Verificar que el token existe en la respuesta
+    if (!data.token) {
+      console.error("No se recibió token en la respuesta:", data);
+      setError("Error al iniciar sesión: no se recibió token");
+      return;
+    }
+    // Guardar el token en localStorage
+    console.log("Guardando token:", data.token);
+    localStorage.setItem("token", data.token);
+
+      await login(data.usuario)
       navigate("/perfil")
     } catch (error) {
       setError("Error al iniciar sesión. Por favor intente nuevamente.")

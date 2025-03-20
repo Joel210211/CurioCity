@@ -13,8 +13,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import InteractiveContent from './pages/InteractiveContent';
 import ProfesoresExpertos from './pages/ProfesoresExpertos';
-import ProtectedRoute from './components/ProtectedRoute';
+// import ProtectedRoute from './components/ProtectedRoute';
 import Cursos from './pages/Cursos';
+import Curso from './pages/Curso'
 import Perfil from './pages/Perfil';
 import Matematicas from './components/Matematicas';
 import Lengua from './components/Lengua';
@@ -39,6 +40,7 @@ function App() {
               <Route path="/interactive-content" element={<InteractiveContent />} />
               <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
               <Route path="/cursos" element={<Cursos />} />
+              <Route path="/curso/ :id" element={<Curso />} />
               {/* Rutas para el contenido interactivo */}
               <Route path="/quizzes" element={<InteractiveContent />} />
               <Route path="/games" element={<InteractiveContent />} />

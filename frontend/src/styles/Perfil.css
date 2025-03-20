@@ -1,0 +1,40 @@
+/* src/styles/Perfil.css */
+.perfil-container {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .perfil-paper {
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  
+  .perfil-paper:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .perfil-avatar {
+    transition: transform 0.3s ease;
+  }
+  
+  .perfil-avatar:hover {
+    transform: scale(1.05);
+  }
+  
+  .user-info {
+    background: linear-gradient(to bottom, #ffffff, #f9f9f9);
+  }
+  
+  .user-name {
+    font-weight: 600;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

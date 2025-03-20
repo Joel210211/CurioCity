@@ -1,0 +1,113 @@
+.curso-container {
+    padding-bottom: 3rem;
+  }
+  
+  .breadcrumb-link {
+    color: #1976d2;
+    text-decoration: none;
+  }
+  
+  .breadcrumb-link:hover {
+    text-decoration: underline;
+  }
+  
+  .curso-header {
+    background: linear-gradient(135deg, #4caf50 0%, #2196f3 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .curso-header::before {
+    content: "";
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+  
+  .curso-header::after {
+    content: "";
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+  
+  .curso-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .curso-subtitle {
+    margin-bottom: 1rem;
+    opacity: 0.9;
+  }
+  
+  .curso-description {
+    max-width: 800px;
+  }
+  
+  .contenido-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  .contenido-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .contenido-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contenido-section-title {
+    color: #1976d2;
+    margin-bottom: 0.5rem;
+  }
+  
+  .contenido-section-description {
+    margin-bottom: 1rem;
+    color: #555;
+  }
+  
+  .recurso-card {
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .recurso-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: 600px) {
+    .curso-header {
+      padding: 1.5rem;
+    }
+  
+    .curso-title {
+      font-size: 1.8rem;
+    }
+  
+    .contenido-section {
+      padding: 1rem;
+    }
+  }
+  
+  

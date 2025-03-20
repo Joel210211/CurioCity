@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState, useRef } from "react"
 import { Container, Typography, Button, Box, Grid, Card, CardContent, IconButton } from "@mui/material"
 import { Link } from "react-router-dom"
@@ -254,7 +252,15 @@ function Home() {
                 </Typography>
                     </Box>
                     <Typography className="subject-description">{subject.description}</Typography>
-                    <Button component={Link} to={subject.path} variant="contained">
+                    <Button 
+                      component={Link} 
+                      to={subject.path} 
+                      variant="contained"
+                      state={{ 
+                        subjectId: index + 1,
+                        subjectTitle: subject.title
+                      }}
+                    >
                       ¡Explorar!
                 </Button>
               </CardContent>

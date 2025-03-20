@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   AppBar, 
@@ -28,6 +28,47 @@ function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
+
+  // Para las burbujas decorativas
+  useEffect(() => {
+    // Crear burbujas decorativas
+    const createBubbles = () => {
+      const bubbleContainer = document.querySelector('.navbar-bubbles');
+      if (!bubbleContainer) return;
+      
+      bubbleContainer.innerHTML = '';
+      
+      const bubbleCount = 10;
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('navbar-bubble');
+        
+        // Propiedades aleatorias
+        const size = Math.random() * 30 + 10;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 10 + 5;
+        const delay = Math.random() * 5;
+        
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${left}%`;
+        bubble.style.animationDuration = `${duration}s`;
+        bubble.style.animationDelay = `${delay}s`;
+        
+        bubbleContainer.appendChild(bubble);
+      }
+    };
+    
+    createBubbles();
+    
+    // Limpiar burbujas al desmontar
+    return () => {
+      const bubbleContainer = document.querySelector('.navbar-bubbles');
+      if (bubbleContainer) {
+        bubbleContainer.innerHTML = '';
+      }
+    };
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -59,6 +100,24 @@ function Navbar() {
 
   const drawer = (
     <List className="mobile-nav-list">
+      {usuario && (
+        <>
+          <ListItem onClick={handleDrawerToggle}>
+            <ListItemText>
+              <Link to="/perfil" className="mobile-nav-link">
+                Perfil
+              </Link>
+            </ListItemText>
+          </ListItem>
+          <ListItem onClick={handleDrawerToggle}>
+            <ListItemText>
+              <Link to="/cursos" className="mobile-nav-link">
+                Cursos
+              </Link>
+            </ListItemText>
+          </ListItem>
+        </>
+      )}
       {navItems.map((item) => (
         <ListItem 
           key={item.text} 
@@ -85,8 +144,11 @@ function Navbar() {
 
   return (
     <AppBar position="sticky" className="navbar">
+      {/* Contenedor de burbujas decorativas */}
+      <div className="navbar-bubbles"></div>
+      
       <Toolbar className="toolbar">
-        <IconButton edge="start" color="inherit" onClick={handleBack} aria-label="volver">
+        <IconButton edge="start" color="inherit" onClick={handleBack} aria-label="volver" className="back-button">
           <ArrowBackIcon />
         </IconButton>
         <Typography 
@@ -150,13 +212,24 @@ function Navbar() {
             ))}
             {usuario && (
               <>
-                <Button color="inherit" onClick={handleMenu}>Mi Cuenta</Button>
+                <Button color="inherit" onClick={handleMenu} className="account-button">
+                  Mi Cuenta
+                </Button>
                 <Menu
                   anchorEl={anchorEl}
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
+                  className="account-menu"
+                  PaperProps={{
+                    className: 'account-menu'
+                  }}
                 >
-                  <MenuItem component={Link} to="/cursos" onClick={handleClose}>Cursos</MenuItem>
+                  <MenuItem component={Link} to="/perfil" onClick={handleClose} className="menu-item">
+                    Perfil
+                  </MenuItem>
+                  <MenuItem component={Link} to="/cursos" onClick={handleClose} className="menu-item">
+                    Cursos
+                  </MenuItem>
                 </Menu>
               </>
             )}

@@ -16,6 +16,32 @@ const ActividadProgress = ({ actividad, cursoId, contenidoId, indiceActividad })
     const [error, setError] = useState(null);
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
+    // Verificar si los datos necesarios existen
+    if (!progresoActividades) {
+        return (
+            <Card variant="outlined" sx={{ mb: 2 }}>
+                <CardContent>
+                    <Typography variant="body2" color="text.secondary">
+                        Cargando progreso...
+                    </Typography>
+                </CardContent>
+            </Card>
+        );
+    }
+
+    // Si no se proporciona la información necesaria de la actividad
+    if (!actividad || !cursoId || contenidoId === undefined || indiceActividad === undefined) {
+        return (
+            <Card variant="outlined" sx={{ mb: 2 }}>
+                <CardContent>
+                    <Typography variant="body2" color="text.secondary">
+                        Información de actividad no disponible
+                    </Typography>
+                </CardContent>
+            </Card>
+        );
+    }
+
     // Generar ID único para la actividad
     const actividadId = `${cursoId}-${contenidoId}-${indiceActividad}`;
 

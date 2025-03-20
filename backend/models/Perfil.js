@@ -14,7 +14,14 @@ const perfilSchema = new mongoose.Schema({
   tareas: [{
     titulo: String,
     descripcion: String,
-    completada: Boolean
+    progreso: {
+      type: Number,
+      default: 0
+    },
+    completada: {
+      type: Boolean,
+      default: false
+    }
   }]
 }, {
   timestamps: true
