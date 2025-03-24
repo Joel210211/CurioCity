@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react"
+"use client"
+
+import { useState, useEffect, useCallback } from "react"
 import { useParams, Link } from "react-router-dom"
 import {
   Container,
@@ -22,25 +24,50 @@ import "../styles/Curso.css"
 
 const Curso = () => {
   const { id } = useParams()
-  const { obtenerCurso, loading } = useProgress()
+  const { obtenerCurso, loading: progressLoading } = useProgress()
   const [curso, setCurso] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  // Usar useCallback para evitar recreaciones innecesarias de la función
+  const fetchCurso = useCallback(async () => {
+    if (!id) return
+
+    try {
+      setLoading(true)
+      const cursoData = await obtenerCurso(id)
+      setCurso(cursoData)
+    } catch (err) {
+      console.error("Error al obtener curso:", err)
+      setError("Error al cargar el curso. Por favor, intenta de nuevo.")
+    } finally {
+      setLoading(false)
+    }
+  }, [id, obtenerCurso])
+
   useEffect(() => {
-    const fetchCurso = async () => {
+    // Usar una bandera para evitar actualizaciones de estado en componentes desmontados
+    let isMounted = true
+
+    const loadCurso = async () => {
       try {
-        const cursoData = await obtenerCurso(id)
-        setCurso(cursoData)
-      } catch (err) {
-        console.error("Error al obtener curso:", err)
-        setError("Error al cargar el curso. Por favor, intenta de nuevo.")
+        await fetchCurso()
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error en loadCurso:", error)
+        }
       }
     }
 
-    fetchCurso()
-  }, [id, obtenerCurso])
+    loadCurso()
 
-  if (loading) {
+    return () => {
+      isMounted = false
+    }
+  }, [fetchCurso])
+
+  // Simplificar la lógica de renderizado condicional
+  if (loading || progressLoading) {
     return (
       <Container className="curso-container">
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">

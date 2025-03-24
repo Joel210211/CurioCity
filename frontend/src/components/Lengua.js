@@ -20,7 +20,9 @@ function Lengua() {
         }
 
         const data = await response.json();
-        const cursosLengua = data.filter(curso => curso.materia === 'Lengua');
+        // Acceder a la propiedad 'cursos' de la respuesta
+        const cursosList = data.cursos || [];
+        const cursosLengua = cursosList.filter(curso => curso.materia === 'Lengua');
         setCursos(cursosLengua);
       } catch (error) {
         console.error('Error al obtener los cursos:', error);

@@ -20,7 +20,9 @@ function Musica() {
         }
 
         const data = await response.json();
-        const cursosMusica = data.filter(curso => curso.materia === 'Música');
+        // Acceder a la propiedad 'cursos' de la respuesta
+        const cursosList = data.cursos || [];
+        const cursosMusica = cursosList.filter(curso => curso.materia === 'Música');
         setCursos(cursosMusica);
       } catch (error) {
         console.error('Error al obtener los cursos:', error);

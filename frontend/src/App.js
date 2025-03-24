@@ -25,6 +25,7 @@ import Ingles from './components/Ingles';
 import Ciencias from './components/Ciencias';
 import ContenidoPorGrado from './components/ContenidoPorGrado';
 
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
@@ -40,7 +41,7 @@ function App() {
               <Route path="/interactive-content" element={<InteractiveContent />} />
               <Route path="/profesores-expertos" element={<ProfesoresExpertos />} />
               <Route path="/cursos" element={<Cursos />} />
-              <Route path="/curso/ :id" element={<Curso />} />
+              <Route path="/curso/:id" element={<Curso />} />
               {/* Rutas para el contenido interactivo */}
               <Route path="/quizzes" element={<InteractiveContent />} />
               <Route path="/games" element={<InteractiveContent />} />

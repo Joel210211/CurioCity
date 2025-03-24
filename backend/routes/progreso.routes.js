@@ -3,16 +3,16 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 const progresoController = require('../controllers/progresoController');
 
-// Iniciar una nueva actividad
-router.post('/', auth, progresoController.iniciarActividad);
+// Obtener el progreso del usuario autenticado
+router.get('/', auth, progresoController.obtenerProgresoUsuario);
 
-// Obtener progreso del usuario
-router.get('/usuario', auth, progresoController.obtenerProgresoUsuario);
+// Actualizar el progreso de una actividad
+router.put('/actividad/:actividadId', auth, progresoController.actualizarProgresoActividad);
 
-// Actualizar progreso de una actividad
-router.put('/:id', auth, progresoController.actualizarProgreso);
+// Añadir una actividad al progreso
+router.post('/actividad', auth, progresoController.agregarActividad);
 
-// Eliminar progreso de una actividad
-router.delete('/:id', auth, progresoController.eliminarProgreso);
+// Eliminar una actividad del progreso
+router.delete('/actividad/:actividadId', auth, progresoController.eliminarActividad);
 
-module.exports = router; 
+module.exports = router;

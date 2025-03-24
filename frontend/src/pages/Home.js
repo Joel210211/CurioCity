@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react"
-import { Container, Typography, Button, Box, Grid, Card, CardContent, IconButton } from "@mui/material"
+import { Container, Typography, Button, Box, Grid, Card, CardContent, IconButton, Snackbar, Alert } from "@mui/material"
 import { Link } from "react-router-dom"
 import MenuBookIcon from "@mui/icons-material/MenuBook"
 import SchoolIcon from "@mui/icons-material/School"
@@ -13,6 +13,8 @@ import MusicNoteIcon from "@mui/icons-material/MusicNote"
 import "../styles/Home.css"
 import "../components/Footer"
 import Footer from "../components/Footer"
+import { useProgress } from "../context/ProgressContext"
+import { useAuth } from "../context/AuthContext"
 
 // Componente para animación al hacer scroll
 function AnimateOnScroll({ children, threshold = 0.1 }) {
@@ -121,6 +123,40 @@ function CloudDecoration() {
 }
 
 function Home() {
+  const { isAuthenticated } = useAuth();
+  const { seleccionarCurso } = useProgress();
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+
+  const handleSeleccionarCurso = async (subject) => {
+    if (!isAuthenticated) {
+      setSnackbar({
+        open: true,
+        message: "Debes iniciar sesión para seleccionar cursos",
+        severity: "warning"
+      });
+      return;
+    }
+    
+    try {
+      await seleccionarCurso(subject._id);
+      setSnackbar({
+        open: true,
+        message: `¡Has seleccionado el curso de ${subject.title}!`,
+        severity: "success"
+      });
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: error.message || "Error al seleccionar el curso",
+        severity: "error"
+      });
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar({ ...snackbar, open: false });
+  };
+
   const features = [
     {
       icon: <MenuBookIcon fontSize="large" />,
@@ -148,36 +184,42 @@ function Home() {
 
   const subjects = [
     {
+      _id: '1',
       title: "Matemáticas",
       description: "¡Conviértete en un mago de los números y resuelve problemas como un superhéroe!",
       path: "/matematicas",
       icon: <SportsEsportsIcon fontSize="large" style={{ color: "#d32f2f" }} />,
     },
     {
+      _id: '2',
       title: "Lengua",
       description: "¡Aprende a contar historias increíbles y ser el mejor narrador de aventuras!",
       path: "/lengua",
       icon: <EmojiEmotionsIcon fontSize="large" style={{ color: "#9c27b0" }} />,
     },
     {
+      _id: '3',
       title: "Ciencias",
       description: "¡Explora el mundo como un científico y descubre todos sus secretos!",
       path: "/ciencias",
       icon: <PetsIcon fontSize="large" style={{ color: "#4caf50" }} />,
     },
     {
+      _id: '4',
       title: "Inglés",
       description: "¡Aprende un idioma mágico que te permitirá hablar con amigos de todo el mundo!",
       path: "/ingles",
       icon: <SportsEsportsIcon fontSize="large" style={{ color: "#2196f3" }} />,
     },
     {
+      _id: '5',
       title: "Música",
       description: "¡Crea melodías increíbles y conviértete en una estrella musical!",
       path: "/musica",
       icon: <MusicNoteIcon fontSize="large" style={{ color: "#ff9800" }} />,
     },
     {
+      _id: '6',
       title: "Plástica",
       description: "¡Libera tu imaginación y crea obras de arte tan geniales como tú!",
       path: "/plastica",
@@ -252,17 +294,44 @@ function Home() {
                 </Typography>
                     </Box>
                     <Typography className="subject-description">{subject.description}</Typography>
-                    <Button 
-                      component={Link} 
-                      to={subject.path} 
-                      variant="contained"
-                      state={{ 
-                        subjectId: index + 1,
-                        subjectTitle: subject.title
-                      }}
-                    >
-                      ¡Explorar!
-                </Button>
+                    <Box display="flex" mt={2}>
+                      <Button 
+                        component={Link} 
+                        to={subject.path} 
+                        variant="contained"
+                        state={{ 
+                          subjectId: index + 1,
+                          subjectTitle: subject.title
+                        }}
+                        fullWidth
+                      >
+                        ¡Explorar!
+                      </Button>
+                      {isAuthenticated ? (
+                        <Button 
+                          component={Link}
+                          to={`${subject.path}/primer-grado`}
+                          variant="outlined"
+                          sx={{ ml: 1 }}
+                        >
+                          Ver Contenido
+                        </Button>
+                      ) : (
+                        <Button 
+                          onClick={() => {
+                            setSnackbar({
+                              open: true,
+                              message: "Inicia sesión para ver más opciones",
+                              severity: "info"
+                            });
+                          }}
+                          variant="outlined"
+                          sx={{ ml: 1 }}
+                        >
+                          Más Opciones
+                        </Button>
+                      )}
+                    </Box>
               </CardContent>
             </Card>
               </AnimateOnScroll>
@@ -288,9 +357,20 @@ function Home() {
       </Box>
       <ScrollToTopButton />
       <Footer />
+
+      {/* Snackbar para notificaciones */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity}>
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }
 
 export default Home
-

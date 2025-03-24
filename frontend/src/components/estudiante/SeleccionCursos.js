@@ -12,16 +12,18 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  IconButton
+  IconButton,
+  LinearProgress
 } from "@mui/material";
 import { useProgress } from "../../context/ProgressContext";
 import { Link } from "react-router-dom";
 import SchoolIcon from "@mui/icons-material/School";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import SeleccionActividades from "./SeleccionActividades";
 
 const SeleccionCursos = () => {
-  const { obtenerCursos } = useProgress();
+  const { obtenerCursosSeleccionados, eliminarCursoSeleccionado } = useProgress();
   const [cursos, setCursos] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -32,10 +34,10 @@ const SeleccionCursos = () => {
     const fetchCursos = async () => {
       try {
         setLoading(true);
-        const cursosData = await obtenerCursos();
+        const cursosData = await obtenerCursosSeleccionados();
         setCursos(cursosData);
       } catch (err) {
-        console.error("Error al obtener cursos:", err);
+        console.error("Error al obtener cursos seleccionados:", err);
         setError("Error al cargar los cursos. Por favor, intenta de nuevo.");
       } finally {
         setLoading(false);
@@ -43,7 +45,7 @@ const SeleccionCursos = () => {
     };
 
     fetchCursos();
-  }, [obtenerCursos]);
+  }, [obtenerCursosSeleccionados]);
 
   const handleSeleccionarActividades = (curso) => {
     setCursoSeleccionado(curso);
@@ -53,6 +55,16 @@ const SeleccionCursos = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setCursoSeleccionado(null);
+  };
+
+  const handleEliminarCurso = async (cursoId) => {
+    try {
+      await eliminarCursoSeleccionado(cursoId);
+      setCursos(cursos.filter(curso => curso._id !== cursoId));
+    } catch (error) {
+      console.error("Error al eliminar curso:", error);
+      setError("Error al eliminar el curso. Por favor, intenta de nuevo.");
+    }
   };
 
   if (loading && cursos.length === 0) {
@@ -77,13 +89,24 @@ const SeleccionCursos = () => {
   return (
     <Box>
       <Typography variant="h5" gutterBottom sx={{ display: "flex", alignItems: "center", mb: 3 }}>
-        <SchoolIcon sx={{ mr: 1 }} /> Mis Cursos Disponibles
+        <SchoolIcon sx={{ mr: 1 }} /> Mis Cursos Seleccionados
       </Typography>
 
       {cursos.length === 0 ? (
-        <Typography align="center" color="textSecondary">
-          No hay cursos disponibles para tu grado.
-        </Typography>
+        <Box textAlign="center" p={3}>
+          <Typography align="center" color="textSecondary" paragraph>
+            No has seleccionado ningún curso todavía.
+          </Typography>
+          <Button 
+            component={Link} 
+            to="/" 
+            variant="contained" 
+            color="primary"
+            sx={{ mt: 2 }}
+          >
+            Explorar Cursos
+          </Button>
+        </Box>
       ) : (
         <Grid container spacing={3}>
           {cursos.map((curso) => (
@@ -114,6 +137,19 @@ const SeleccionCursos = () => {
                   <Typography variant="body2" color="primary">
                     Materia: {curso.materia}
                   </Typography>
+                  
+                  {/* Barra de progreso */}
+                  <Box sx={{ mt: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                      <Typography variant="body2">Progreso</Typography>
+                      <Typography variant="body2">{curso.progreso || 0}%</Typography>
+                    </Box>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={curso.progreso || 0} 
+                      sx={{ height: 8, borderRadius: 4 }}
+                    />
+                  </Box>
                 </CardContent>
                 <Box p={2} pt={0} display="flex" justifyContent="space-between">
                   <Button
@@ -135,6 +171,13 @@ const SeleccionCursos = () => {
                   >
                     Actividades
                   </Button>
+                  <IconButton 
+                    color="error" 
+                    onClick={() => handleEliminarCurso(curso._id || curso.id)}
+                    sx={{ ml: 1 }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
                 </Box>
               </Card>
             </Grid>

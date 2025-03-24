@@ -20,7 +20,9 @@ function Plastica() {
         }
 
         const data = await response.json();
-        const cursosPlastica = data.filter(curso => curso.materia === 'Plástica');
+        // Acceder a la propiedad 'cursos' de la respuesta
+        const cursosList = data.cursos || [];
+        const cursosPlastica = cursosList.filter(curso => curso.materia === 'Plástica');
         setCursos(cursosPlastica);
       } catch (error) {
         console.error('Error al obtener los cursos:', error);

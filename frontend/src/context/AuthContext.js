@@ -37,16 +37,27 @@ export const AuthProvider = ({ children }) => {
               
               if (response.ok) {
                 const data = await response.json();
-                setUsuario(data.usuario);
-                setIsAuthenticated(true);
+                if (data.success && data.usuario) {
+                  setUsuario(data.usuario);
+                  setIsAuthenticated(true);
+                } else {
+                  throw new Error('Respuesta inválida del servidor');
+                }
               } else {
-                localStorage.removeItem('token');
-                setUsuario(null);
-                setIsAuthenticated(false);
+                // Si hay un error 401, intentar renovar el token
+                if (response.status === 401) {
+                  // Aquí podrías implementar una lógica para renovar el token
+                  // Por ahora, simplemente eliminamos el token inválido
+                  localStorage.removeItem('token');
+                  setUsuario(null);
+                  setIsAuthenticated(false);
+                } else {
+                  throw new Error(`Error ${response.status}: ${response.statusText}`);
+                }
               }
             } catch (error) {
               console.error('Error al verificar el usuario:', error);
-              localStorage.removeItem('token');
+              // No eliminamos el token automáticamente para permitir reintentos
               setUsuario(null);
               setIsAuthenticated(false);
             }

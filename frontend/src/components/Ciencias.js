@@ -20,7 +20,9 @@ function Ciencias() {
         }
 
         const data = await response.json();
-        const cursosCiencias = data.filter(curso => curso.materia === 'Ciencias');
+        // Acceder a la propiedad 'cursos' de la respuesta
+        const cursosList = data.cursos || [];
+        const cursosCiencias = cursosList.filter(curso => curso.materia === 'Ciencias');
         setCursos(cursosCiencias);
       } catch (error) {
         console.error('Error al obtener los cursos:', error);

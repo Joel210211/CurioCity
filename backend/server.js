@@ -1,51 +1,63 @@
-require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const dotenv = require('dotenv');
+const path = require('path');
 
-//importar rutas de cursos y perfil
-const cursosRoutes = require('./routes/cursos.routes');
-const authRoutes = require('./routes/auth.routes');
-const perfilRoutes = require('./routes/perfil.routes');
-const actividadesRoutes = require('./routes/actividades.routes');
-const progresoRoutes = require('./routes/progreso.routes');
+// Cargar variables de entorno
+dotenv.config();
 
+// Inicializar Express
 const app = express();
-const jwtSecret = process.env.JWT_SECRET;
 
 // Middleware
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'x-auth-token', 'Authorization']
-}));
-app.use(express.json());
+app.use(cors());
+app.use(express.json({ extended: false }));
 
-// Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('Conectado a MongoDB'))
-  .catch(err => console.error('Error de conexión a MongoDB:', err));
+// Conectar a MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('MongoDB conectado'))
+.catch(err => {
+  console.error('Error al conectar a MongoDB:', err.message);
+  process.exit(1);
+});
 
-// Middleware de autenticación
-const authMiddleware = require('./middleware/auth');
+// Importar las rutas
+const authRoutes = require('./routes/auth.routes');
+const perfilRoutes = require('./routes/perfil.routes');
+const cursosRoutes = require('./routes/cursos.routes');
+const actividadesRoutes = require('./routes/actividades.routes');
+const progresoRoutes = require('./routes/progreso.routes');
+const cursosSeleccionadosRoutes = require('./routes/cursosSeleccionados.routes');
 
-// Rutas públicas
+// Configurar las rutas
 app.use('/api/auth', authRoutes);
+app.use('/api/perfil', perfilRoutes);
+app.use('/api/cursos', cursosRoutes);
+app.use('/api/actividades', actividadesRoutes);
+app.use('/api/progreso', progresoRoutes);
+app.use('/api/cursos-seleccionados', cursosSeleccionadosRoutes);
 
-// Ruta de prueba para verificar si el servidor funciona
+// Ruta de prueba
 app.get('/api/test', (req, res) => {
-  res.json({ success: true, msg: 'API funcionando correctamente' });
+  res.json({ msg: 'API funcionando correctamente' });
 });
 
-// Rutas protegidas (con autenticación)
-app.use('/api/cursos', authMiddleware, cursosRoutes);
-app.use('/api/actividades', authMiddleware, actividadesRoutes);
-app.use('/api/progreso', authMiddleware, progresoRoutes);
-app.use('/api/perfil', authMiddleware, perfilRoutes);
+// Servir archivos estáticos en producción
+if (process.env.NODE_ENV === 'production') {
+  // Establecer carpeta estática
+  app.use(express.static('client/build'));
 
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
+// Puerto del servidor
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
-});
+
+// Iniciar el servidor
+app.listen(PORT, () => console.log(`Servidor iniciado en el puerto ${PORT}`));
