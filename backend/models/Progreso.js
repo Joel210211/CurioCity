@@ -21,10 +21,10 @@ const actividadProgresoSchema = new mongoose.Schema({
 });
 
 const progresoSchema = new mongoose.Schema({
-  usuario: {
+  estudianteId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Usuario',
-    required: true
+    required: true,
   },
   total: {
     type: Number,

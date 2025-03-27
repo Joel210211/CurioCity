@@ -96,6 +96,47 @@ export const ProgressProvider = ({ children }) => {
     }
   }
 
+  // Función para obtener el progreso de un estudiante específico (para padres)
+  const obtenerProgresoEstudiante = async (estudianteId) => {
+    try {
+      if (!estudianteId) {
+        throw new Error("ID de estudiante no proporcionado")
+      }
+
+      const token = localStorage.getItem("token")
+      if (!token) {
+        throw new Error("No hay token disponible")
+      }
+
+      console.log("Obteniendo progreso del estudiante con ID:", estudianteId)
+
+      const response = await fetch(`http://localhost:5000/api/progreso/estudiante/${estudianteId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token,
+        },
+      })
+
+      if (!response.ok) {
+        const errorData = await response.text()
+        console.error("Error de respuesta:", response.status, errorData)
+        throw new Error(`Error al obtener el progreso del estudiante: ${response.status}`)
+      }
+
+      const data = await response.json()
+
+      if (!data.success) {
+        throw new Error(data.msg || "Error al obtener el progreso del estudiante")
+      }
+
+      return data.progreso
+    } catch (error) {
+      console.error("Error al obtener progreso del estudiante:", error)
+      throw error
+    }
+  }
+
   // Función para actualizar el progreso de una actividad específica
   const actualizarProgreso = async (actividadId, nuevoProgreso) => {
     try {
@@ -676,6 +717,7 @@ export const ProgressProvider = ({ children }) => {
         seleccionarCurso,
         eliminarCursoSeleccionado,
         actualizarProgresoCurso,
+        obtenerProgresoEstudiante,
       }}
     >
       {children}

@@ -49,12 +49,7 @@ const usuarioSchema = new mongoose.Schema({
       return this.rol === 'profesor';
     }
   },
-  hijosRegistrados: {
-    type: String,
-    required: function() {
-      return this.rol === 'padre';
-    }
-  }
+  hijosRegistrados: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' }]
 }, {
   timestamps: true
 });

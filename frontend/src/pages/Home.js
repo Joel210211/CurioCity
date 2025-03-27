@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState, useRef } from "react"
 import { Container, Typography, Button, Box, Grid, Card, CardContent, IconButton, Snackbar, Alert } from "@mui/material"
 import { Link } from "react-router-dom"
@@ -83,15 +85,15 @@ function ScrollToTopButton() {
       onClick={scrollToTop}
       className="scroll-to-top"
       style={{
-        position: 'fixed',
-        bottom: '20px',
-        right: '20px',
+        position: "fixed",
+        bottom: "20px",
+        right: "20px",
         display: isVisible ? "flex" : "none",
-        backgroundColor: '#ffeb3b',
-        color: '#000',
+        backgroundColor: "#ffeb3b",
+        color: "#000",
         zIndex: 1000,
-        borderRadius: '50%',
-        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+        borderRadius: "50%",
+        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.2)",
       }}
       aria-label="Scroll to top"
     >
@@ -123,39 +125,39 @@ function CloudDecoration() {
 }
 
 function Home() {
-  const { isAuthenticated } = useAuth();
-  const { seleccionarCurso } = useProgress();
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
+  const { isAuthenticated } = useAuth()
+  const { seleccionarCurso } = useProgress()
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" })
 
   const handleSeleccionarCurso = async (subject) => {
     if (!isAuthenticated) {
       setSnackbar({
         open: true,
         message: "Debes iniciar sesión para seleccionar cursos",
-        severity: "warning"
-      });
-      return;
+        severity: "warning",
+      })
+      return
     }
-    
+
     try {
-      await seleccionarCurso(subject._id);
+      await seleccionarCurso(subject._id)
       setSnackbar({
         open: true,
         message: `¡Has seleccionado el curso de ${subject.title}!`,
-        severity: "success"
-      });
+        severity: "success",
+      })
     } catch (error) {
       setSnackbar({
         open: true,
         message: error.message || "Error al seleccionar el curso",
-        severity: "error"
-      });
+        severity: "error",
+      })
     }
-  };
+  }
 
   const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
+    setSnackbar({ ...snackbar, open: false })
+  }
 
   const features = [
     {
@@ -184,42 +186,42 @@ function Home() {
 
   const subjects = [
     {
-      _id: '1',
+      _id: "1",
       title: "Matemáticas",
       description: "¡Conviértete en un mago de los números y resuelve problemas como un superhéroe!",
       path: "/matematicas",
       icon: <SportsEsportsIcon fontSize="large" style={{ color: "#d32f2f" }} />,
     },
     {
-      _id: '2',
+      _id: "2",
       title: "Lengua",
       description: "¡Aprende a contar historias increíbles y ser el mejor narrador de aventuras!",
       path: "/lengua",
       icon: <EmojiEmotionsIcon fontSize="large" style={{ color: "#9c27b0" }} />,
     },
     {
-      _id: '3',
+      _id: "3",
       title: "Ciencias",
       description: "¡Explora el mundo como un científico y descubre todos sus secretos!",
       path: "/ciencias",
       icon: <PetsIcon fontSize="large" style={{ color: "#4caf50" }} />,
     },
     {
-      _id: '4',
+      _id: "4",
       title: "Inglés",
       description: "¡Aprende un idioma mágico que te permitirá hablar con amigos de todo el mundo!",
       path: "/ingles",
       icon: <SportsEsportsIcon fontSize="large" style={{ color: "#2196f3" }} />,
     },
     {
-      _id: '5',
+      _id: "5",
       title: "Música",
       description: "¡Crea melodías increíbles y conviértete en una estrella musical!",
       path: "/musica",
       icon: <MusicNoteIcon fontSize="large" style={{ color: "#ff9800" }} />,
     },
     {
-      _id: '6',
+      _id: "6",
       title: "Plástica",
       description: "¡Libera tu imaginación y crea obras de arte tan geniales como tú!",
       path: "/plastica",
@@ -253,25 +255,25 @@ function Home() {
         </Typography>
         <Grid container spacing={4}>
           {features.map((feature, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+            <Grid item xs={12} sm={6} md={3} key={index}>
               <AnimateOnScroll>
-            <Card className="feature-card">
-              <Box 
+                <Card className="feature-card">
+                  <Box
                     component={feature.path ? Link : "div"}
-                to={feature.path} 
+                    to={feature.path}
                     style={{ textDecoration: "none", width: "100%", height: "100%" }}
-              >
-                <CardContent>
+                  >
+                    <CardContent>
                       <Box className="feature-icon">{feature.icon}</Box>
-                  <Typography variant="h5" className="feature-title">
-                    {feature.title}
-                  </Typography>
+                      <Typography variant="h5" className="feature-title">
+                        {feature.title}
+                      </Typography>
                       <Typography className="feature-description">{feature.description}</Typography>
-                </CardContent>
-              </Box>
-            </Card>
+                    </CardContent>
+                  </Box>
+                </Card>
               </AnimateOnScroll>
-          </Grid>
+            </Grid>
           ))}
         </Grid>
       </Container>
@@ -285,57 +287,33 @@ function Home() {
           {subjects.map((subject, index) => (
             <Grid item xs={12} sm={6} md={4} key={index}>
               <AnimateOnScroll>
-            <Card className="subject-card">
-              <CardContent>
+                <Card className="subject-card">
+                  <CardContent>
                     <Box display="flex" alignItems="center" mb={2}>
                       {subject.icon}
                       <Typography variant="h5" className="subject-title" ml={1}>
                         {subject.title}
-                </Typography>
+                      </Typography>
                     </Box>
                     <Typography className="subject-description">{subject.description}</Typography>
                     <Box display="flex" mt={2}>
-                      <Button 
-                        component={Link} 
-                        to={subject.path} 
+                      <Button
+                        component={Link}
+                        to={subject.path}
                         variant="contained"
-                        state={{ 
+                        state={{
                           subjectId: index + 1,
-                          subjectTitle: subject.title
+                          subjectTitle: subject.title,
                         }}
                         fullWidth
                       >
                         ¡Explorar!
                       </Button>
-                      {isAuthenticated ? (
-                        <Button 
-                          component={Link}
-                          to={`${subject.path}/primer-grado`}
-                          variant="outlined"
-                          sx={{ ml: 1 }}
-                        >
-                          Ver Contenido
-                        </Button>
-                      ) : (
-                        <Button 
-                          onClick={() => {
-                            setSnackbar({
-                              open: true,
-                              message: "Inicia sesión para ver más opciones",
-                              severity: "info"
-                            });
-                          }}
-                          variant="outlined"
-                          sx={{ ml: 1 }}
-                        >
-                          Más Opciones
-                        </Button>
-                      )}
                     </Box>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
               </AnimateOnScroll>
-          </Grid>
+            </Grid>
           ))}
         </Grid>
       </Container>
@@ -374,3 +352,4 @@ function Home() {
 }
 
 export default Home
+

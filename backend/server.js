@@ -32,9 +32,11 @@ const cursosRoutes = require('./routes/cursos.routes');
 const actividadesRoutes = require('./routes/actividades.routes');
 const progresoRoutes = require('./routes/progreso.routes');
 const cursosSeleccionadosRoutes = require('./routes/cursosSeleccionados.routes');
+const usuariosRoutes = require('./routes/usuarios.routes')
 
 // Configurar las rutas
 app.use('/api/auth', authRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/perfil', perfilRoutes);
 app.use('/api/cursos', cursosRoutes);
 app.use('/api/actividades', actividadesRoutes);

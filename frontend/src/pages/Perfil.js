@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import {
   Container,
@@ -26,7 +26,7 @@ import "../styles/Perfil.css"
 
 // Modificar la función Perfil para incluir pestañas según el rol
 function Perfil() {
-  const { usuario, logout } = useAuth()
+  const { usuario, logout, cursosSeleccionados } = useAuth()
   const [perfil, setPerfil] = useState(null)
   const [cursos] = useState([])
   const [tabValue, setTabValue] = useState(0)
@@ -201,7 +201,20 @@ function Perfil() {
                       <Tab label="Mis Actividades" />
                     </Tabs>
 
-                    {tabValue === 0 && <SeleccionCursos />}
+                    {tabValue === 0 && (
+                      <>
+                        <SeleccionCursos />
+                        <Button 
+                          variant="contained" 
+                          color="primary" 
+                          component={Link} 
+                          to="/" 
+                          sx={{ mt: 2 }}
+                        >
+                          Explorar Cursos
+                        </Button>
+                      </>
+                    )}
                     {tabValue === 1 && <MisActividades />}
                   </Box>
                 )}
@@ -291,7 +304,7 @@ function Perfil() {
                                 >
                                   {curso.descripcion}
                                 </Typography>
-                                <Button variant="contained" size="small" fullWidth>
+                                <Button variant="contained" size="small">
                                   Ver Curso
                                 </Button>
                               </CardContent>

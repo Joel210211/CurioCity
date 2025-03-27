@@ -1,11 +1,12 @@
+"use client"
 
-
-import { useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, Link } from "react-router-dom"
 import { Container, Paper, TextField, Button, Typography, Alert, Box } from "@mui/material"
 import { useAuth } from "../context/AuthContext"
 import "../styles/Login.css"
 import Footer from "../components/Footer"
+import ForgotPassword from "./ForgotPassword"
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ function Login() {
     password: "",
   })
   const [error, setError] = useState("")
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false)
   const navigate = useNavigate()
   const { login } = useAuth()
 
@@ -36,14 +38,14 @@ function Login() {
       }
 
       // Verificar que el token existe en la respuesta
-    if (!data.token) {
-      console.error("No se recibió token en la respuesta:", data);
-      setError("Error al iniciar sesión: no se recibió token");
-      return;
-    }
-    // Guardar el token en localStorage
-    console.log("Guardando token:", data.token);
-    localStorage.setItem("token", data.token);
+      if (!data.token) {
+        console.error("No se recibió token en la respuesta:", data)
+        setError("Error al iniciar sesión: no se recibió token")
+        return
+      }
+      // Guardar el token en localStorage
+      console.log("Guardando token:", data.token)
+      localStorage.setItem("token", data.token)
 
       await login(data.usuario)
       navigate("/perfil")
@@ -60,9 +62,9 @@ function Login() {
     })
   }
 
-  useEffect(() =>{
-    window.scrollTo(0,0);// desplazamiento automatico hacia arriba
-  }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0) // desplazamiento automatico hacia arriba
+  }, [])
 
   return (
     <main>
@@ -83,16 +85,23 @@ function Login() {
               required
               fullWidth
             />
-            <TextField
-              className="form-field"
-              label="Contraseña"
-              name="password"
-              type="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              fullWidth
-            />
+            <div className="password-container">
+              <TextField
+                className="form-field"
+                label="Contraseña"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                fullWidth
+              />
+            </div>
+
+            <Typography variant="body2" onClick={() => setForgotPasswordOpen(true)} className="password-reset-link">
+              ¿Olvidaste tu contraseña?
+            </Typography>
+
             <Button type="submit" variant="contained" color="primary" className="submit-button" fullWidth>
               Iniciar Sesión
             </Button>
@@ -107,6 +116,10 @@ function Login() {
           </Box>
         </Paper>
       </Container>
+
+      {/* Componente de recuperación de contraseña */}
+      <ForgotPassword open={forgotPasswordOpen} onClose={() => setForgotPasswordOpen(false)} />
+
       <Footer />
     </main>
   )

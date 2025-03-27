@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
   const [usuario, setUsuario] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [cursosSeleccionados, setCursosSeleccionados] = useState([]); // Estado para cursos seleccionados
 
   // Verificar si hay un token al cargar la aplicación
   useEffect(() => {
@@ -37,27 +38,13 @@ export const AuthProvider = ({ children }) => {
               
               if (response.ok) {
                 const data = await response.json();
-                if (data.success && data.usuario) {
-                  setUsuario(data.usuario);
-                  setIsAuthenticated(true);
-                } else {
-                  throw new Error('Respuesta inválida del servidor');
-                }
+                setUsuario(data.usuario);
+                setIsAuthenticated(true);
               } else {
-                // Si hay un error 401, intentar renovar el token
-                if (response.status === 401) {
-                  // Aquí podrías implementar una lógica para renovar el token
-                  // Por ahora, simplemente eliminamos el token inválido
-                  localStorage.removeItem('token');
-                  setUsuario(null);
-                  setIsAuthenticated(false);
-                } else {
-                  throw new Error(`Error ${response.status}: ${response.statusText}`);
-                }
+                throw new Error('Respuesta inválida del servidor');
               }
             } catch (error) {
               console.error('Error al verificar el usuario:', error);
-              // No eliminamos el token automáticamente para permitir reintentos
               setUsuario(null);
               setIsAuthenticated(false);
             }
@@ -127,6 +114,13 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
+  // Función para seleccionar curso
+  const seleccionarCurso = (cursoId) => {
+    // Lógica para agregar el curso al perfil del usuario
+    const curso = { _id: cursoId, titulo: "Curso Ejemplo" }; // Reemplaza con la lógica real
+    setCursosSeleccionados((prevCursos) => [...prevCursos, curso]);
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -134,7 +128,9 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         loading,
         login,
-        logout
+        logout,
+        cursosSeleccionados, // Agregar cursos seleccionados al contexto
+        seleccionarCurso, // Agregar la función de selección de curso
       }}
     >
       {children}

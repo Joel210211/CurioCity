@@ -20,12 +20,12 @@ import {
     ListItemIcon,
     ListItemText,
     Button,
-  CircularProgress,
-  Snackbar,
-  Alert,
-  Dialog,
-  DialogTitle,
-  DialogContent,
+    CircularProgress,
+    Snackbar,
+    Alert,
+    Dialog,
+    DialogTitle,
+    DialogContent,
 } from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import BookIcon from "@mui/icons-material/Book"
@@ -81,9 +81,9 @@ const ContenidoPorGrado = () => {
   // Calcular y memorizar la materia para evitar recálculos innecesarios
   const materia = useMemo(() => getMateria(location.pathname), [location.pathname])
 
-    // Función para obtener el nombre completo de la materia para el título
+  // Función para obtener el nombre completo de la materia para el título
   const getNombreCompleto = useCallback((materiaCorta) => {
-        switch (materiaCorta) {
+    switch (materiaCorta) {
       case "Lengua":
         return "Lengua y Literatura"
       case "Ciencias":
@@ -94,7 +94,7 @@ const ContenidoPorGrado = () => {
         return "Arte y Creatividad"
       case "Inglés":
         return "Inglés Básico"
-            default:
+      default:
         return materiaCorta
     }
   }, [])
@@ -109,7 +109,6 @@ const ContenidoPorGrado = () => {
       return
     }
 
-    // Verificar si ya tenemos los datos en caché
     const cacheKey = `${grado}-${materia}`
     if (cursosCache[cacheKey]) {
       setCursos(cursosCache[cacheKey])
@@ -119,44 +118,47 @@ const ContenidoPorGrado = () => {
 
     try {
       setLoading(true)
-      const response = await fetch(`http://localhost:5000/api/cursos/grado/${grado.replace("-", " ")}`)
+      const token = localStorage.getItem('token'); // Obtener el token
+      const response = await fetch(`http://localhost:5000/api/cursos/grado/${grado.replace("-", " ")}`, {
+        headers: {
+          'x-auth-token': token // Enviar el token en la cabecera
+        }
+      });
 
-                if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`)
-                }
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
 
-      const data = await response.json()
-                
-      let cursosData = []
-                if (data && data.success && Array.isArray(data.cursos)) {
-        cursosData = data.cursos
-                } else if (Array.isArray(data)) {
-        cursosData = data
-                } else {
-        setError("Formato de datos incorrecto")
-        setLoading(false)
-        return
+      const data = await response.json();
+      
+      let cursosData = [];
+      if (data && data.success && Array.isArray(data.cursos)) {
+        cursosData = data.cursos;
+      } else if (Array.isArray(data)) {
+        cursosData = data;
+      } else {
+        setError("Formato de datos incorrecto");
+        setLoading(false);
+        return;
       }
 
       const cursosFiltrados = cursosData.filter(
         (curso) => curso.grado === grado.replace("-", " ") && curso.materia === materia,
-      )
+      );
 
-      // Guardar en caché
-      cursosCache[cacheKey] = cursosFiltrados
+      cursosCache[cacheKey] = cursosFiltrados;
 
-      setCursos(cursosFiltrados)
-      setLoading(false)
+      setCursos(cursosFiltrados);
+      setLoading(false);
     } catch (error) {
-      setError(error.message)
-      setLoading(false)
+      setError(error.message);
+      setLoading(false);
     }
-  }, [grado, materia])
+  }, [grado, materia]);
 
   // Simplificar el useEffect para evitar ciclos de renderizado
   useEffect(() => {
-    // Usar una bandera para evitar actualizaciones de estado en componentes desmontados
-    let isMounted = true
+    let isMounted = true // Bandera para evitar actualizaciones en componentes desmontados
 
     const loadCursos = async () => {
       if (isMounted) {
@@ -167,7 +169,7 @@ const ContenidoPorGrado = () => {
     loadCursos()
 
     return () => {
-      isMounted = false
+      isMounted = false // Limpiar la bandera al desmontar
     }
   }, [fetchCursos])
 
@@ -186,7 +188,7 @@ const ContenidoPorGrado = () => {
         setMensaje(`¡Has seleccionado el curso de ${curso.titulo}!`)
         setError(null)
         setOpenSnackbar(true)
-            } catch (error) {
+      } catch (error) {
         console.error("Error al seleccionar curso:", error)
         setError(error.message || "Error al seleccionar el curso")
         setOpenSnackbar(true)
@@ -234,132 +236,132 @@ const ContenidoPorGrado = () => {
   const renderContent = () => {
     if (loading) {
       return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
           <CircularProgress />
           <Typography sx={{ ml: 2 }}>Cargando contenido...</Typography>
-            </Box>
+        </Box>
       )
     }
 
     if (error) {
       return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-                <Typography color="error">Error: {error}</Typography>
-            </Box>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+          <Typography color="error">Error: {error}</Typography>
+        </Box>
       )
     }
 
     if (!materia) {
       return (
-            <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-                <Typography>Materia no válida</Typography>
-            </Box>
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
+          <Typography>Materia no válida</Typography>
+        </Box>
       )
     }
 
     if (cursos.length === 0) {
-        return (
-                <Box sx={{ py: 4 }}>
+      return (
+        <Box sx={{ py: 4 }}>
           <Typography variant="h3" gutterBottom>
             {nombreCompletoMateria} - {grado.replace("-", " ")}
           </Typography>
-                    <Paper sx={{ p: 3, mt: 2 }}>
+          <Paper sx={{ p: 3, mt: 2 }}>
             <Typography>No hay cursos disponibles para este grado en {nombreCompletoMateria}.</Typography>
-                    </Paper>
-                </Box>
+          </Paper>
+        </Box>
       )
     }
 
     return (
-            <Grid container spacing={4}>
+      <Grid container spacing={4}>
         {cursos.map((curso) => (
-                    <Grid item xs={12} key={curso._id}>
-                            <Card 
-                                elevation={3}
-                                sx={{
+          <Grid item xs={12} key={curso._id}>
+            <Card 
+              elevation={3}
+              sx={{
                 borderRadius: "10px",
                 transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
                 "&:hover": {
                   transform: "translateY(-5px)",
                   boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
                 },
-                                }}
-                            >
-                                <CardContent sx={{ p: 4 }}>
-                                    <Typography 
-                                        variant="h5" 
-                                        gutterBottom 
-                                        color="primary"
-                                        sx={{
+              }}
+            >
+              <CardContent sx={{ p: 4 }}>
+                <Typography 
+                  variant="h5" 
+                  gutterBottom 
+                  color="primary"
+                  sx={{
                     fontWeight: "bold",
                     mb: 2,
-                                        }}
-                                    >
-                                        {curso.titulo}
-                                    </Typography>
-                                    <Typography 
-                                        variant="body1" 
-                                        paragraph
-                                        sx={{
+                  }}
+                >
+                  {curso.titulo}
+                </Typography>
+                <Typography 
+                  variant="body1" 
+                  paragraph
+                  sx={{
                     color: "#666",
                     fontSize: "1.1rem",
                     lineHeight: 1.6,
-                                        }}
-                                    >
-                                        {curso.descripcion}
-                                    </Typography>
+                  }}
+                >
+                  {curso.descripcion}
+                </Typography>
 
-                                    <Divider sx={{ my: 3 }} />
+                <Divider sx={{ my: 3 }} />
 
-                                    {/* Sección de Contenido */}
+                {/* Sección de Contenido */}
                 {curso.contenido &&
                   curso.contenido.map((item, index) => (
-                                        <Accordion 
-                                            key={index} 
-                                            sx={{ 
-                                                mt: 2,
+                    <Accordion 
+                      key={index} 
+                      sx={{ 
+                        mt: 2,
                         borderRadius: "8px",
                         "&:before": {
                           display: "none",
                         },
                         boxShadow: "none",
                         border: "1px solid #e0e0e0",
-                                            }}
-                                        >
-                                            <AccordionSummary 
-                                                expandIcon={<ExpandMoreIcon />}
-                                                sx={{
+                      }}
+                    >
+                      <AccordionSummary 
+                        expandIcon={<ExpandMoreIcon />}
+                        sx={{
                           backgroundColor: "#f8f9fa",
                           borderRadius: "8px 8px 0 0",
-                                                }}
-                                            >
-                                                <Typography 
-                                                    variant="h6"
-                                                    sx={{
-                                                        fontWeight: 500,
+                        }}
+                      >
+                        <Typography 
+                          variant="h6"
+                          sx={{
+                            fontWeight: 500,
                             color: "#2c3e50",
-                                                    }}
-                                                >
-                                                    {item.titulo}
-                                                </Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails sx={{ p: 3 }}>
-                                                <Typography 
-                                                    paragraph
-                                                    sx={{
+                          }}
+                        >
+                          {item.titulo}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails sx={{ p: 3 }}>
+                        <Typography 
+                          paragraph
+                          sx={{
                             color: "#666",
                             mb: 3,
-                                                    }}
-                                                >
-                                                    {item.descripcion}
-                                                </Typography>
+                          }}
+                        >
+                          {item.descripcion}
+                        </Typography>
 
-                                                {/* Lista de Recursos */}
-                                                {item.recursos && item.recursos.length > 0 && (
-                                                    <List>
-                                                        {item.recursos.map((recurso, idx) => (
-                                                            <ListItem key={idx}>
-                                                                <ListItemIcon>
+                        {/* Lista de Recursos */}
+                        {item.recursos && item.recursos.length > 0 && (
+                          <List>
+                            {item.recursos.map((recurso, idx) => (
+                              <ListItem key={idx}>
+                                <ListItemIcon>
                                   {idx % 3 === 0 ? (
                                     <BookIcon color="primary" />
                                   ) : idx % 3 === 1 ? (
@@ -367,43 +369,43 @@ const ContenidoPorGrado = () => {
                                   ) : (
                                     <AssignmentIcon color="action" />
                                   )}
-                                                                </ListItemIcon>
-                                                                <ListItemText 
-                                                                    primary={`Recurso ${idx + 1}`}
-                                                                    secondary={recurso}
-                                                                    sx={{
+                                </ListItemIcon>
+                                <ListItemText 
+                                  primary={`Recurso ${idx + 1}`}
+                                  secondary={recurso}
+                                  sx={{
                                     "& .MuiListItemText-primary": {
                                       fontWeight: "bold",
                                       color: "#2c3e50",
                                     },
-                                                                    }}
-                                                                />
-                                                                <Button 
-                                                                    variant="outlined" 
-                                                                    size="small" 
-                                                                    href={recurso} 
-                                                                    target="_blank"
-                                                                    sx={{
+                                  }}
+                                />
+                                <Button 
+                                  variant="outlined" 
+                                  size="small" 
+                                  href={recurso} 
+                                  target="_blank"
+                                  sx={{
                                     borderRadius: "20px",
                                     ml: 2,
-                                                                    }}
-                                                                >
-                                                                    Ver Recurso
-                                                                </Button>
-                                                            </ListItem>
-                                                        ))}
-                                                    </List>
-                                                )}
+                                  }}
+                                >
+                                  Ver Recurso
+                                </Button>
+                              </ListItem>
+                            ))}
+                          </List>
+                        )}
 
-                                                <Divider sx={{ my: 3 }} />
+                        <Divider sx={{ my: 3 }} />
 
-                                                {/* Actividades */}
-                                                <Box sx={{ mt: 3 }}>
-                                                    <Typography variant="h6" gutterBottom>
-                                                        Actividades
-                                                    </Typography>
-                                                    <Grid container spacing={3}>
-                                                        {item.actividades && Array.isArray(item.actividades) && item.actividades.length > 0 ? (
+                        {/* Actividades */}
+                        <Box sx={{ mt: 3 }}>
+                          <Typography variant="h6" gutterBottom>
+                            Actividades
+                          </Typography>
+                          <Grid container spacing={3}>
+                            {item.actividades && Array.isArray(item.actividades) && item.actividades.length > 0 ? (
                               item.actividades.map((actividad, idx) => {
                                 // Generar ID de actividad
                                 const actividadId = `${curso._id}-${item._id}-${idx}`
@@ -413,48 +415,48 @@ const ContenidoPorGrado = () => {
                                 const progresoActual = obtenerProgresoActividad(actividadId)
 
                                 return (
-                                                                <Grid item xs={12} md={6} key={idx}>
-                                                                    <ActividadProgress 
-                                                                        actividad={actividad}
-                                                                        cursoId={curso._id}
-                                                                        contenidoId={item._id}
-                                                                        indiceActividad={idx}
-                                                                    />
+                                  <Grid item xs={12} md={6} key={idx}>
+                                    <ActividadProgress 
+                                      actividad={actividad}
+                                      cursoId={curso._id}
+                                      contenidoId={item._id}
+                                      indiceActividad={idx}
+                                    />
                                     {/* Opcional: Mostrar información adicional del progreso */}
                                     {enProgreso && (
                                       <Typography variant="caption" color="primary">
                                         Progreso actual: {progresoActual}%
-                                                                            </Typography>
+                                      </Typography>
                                     )}
-                                                                </Grid>
+                                  </Grid>
                                 )
                               })
-                                                        ) : (
-                                                            <Grid item xs={12}>
-                                                                <Typography color="textSecondary">
-                                                                    No hay actividades disponibles para este contenido.
-                                                                </Typography>
-                                                            </Grid>
-                                                        )}
-                                                    </Grid>
-                                                </Box>
+                            ) : (
+                              <Grid item xs={12}>
+                                <Typography color="textSecondary">
+                                  No hay actividades disponibles para este contenido.
+                                </Typography>
+                              </Grid>
+                            )}
+                          </Grid>
+                        </Box>
 
-                                    {/* Botones de Acción */}
-                                    <Box 
-                                        sx={{ 
-                                            mt: 4, 
+                        {/* Botones de Acción */}
+                        <Box 
+                          sx={{ 
+                            mt: 4, 
                             display: "flex",
-                                            gap: 2,
+                            gap: 2,
                             flexWrap: "wrap",
                             justifyContent: "flex-start",
-                                        }}
-                                    >
-                                        <Button 
-                                            variant="contained" 
-                                            startIcon={<SchoolIcon />}
-                                            color="primary"
+                          }}
+                        >
+                          <Button 
+                            variant="contained" 
+                            startIcon={<SchoolIcon />}
+                            color="primary"
                             onClick={() => handleComenzarCurso(curso)}
-                                            sx={{
+                            sx={{
                               borderRadius: "25px",
                               padding: "10px 24px",
                               textTransform: "none",
@@ -465,13 +467,13 @@ const ContenidoPorGrado = () => {
                                 transform: "translateY(-2px)",
                                 boxShadow: "0 6px 8px rgba(0, 0, 0, 0.2)",
                               },
-                                            }}
-                                        >
-                                            Comenzar Curso
-                                        </Button>
-                                        <Button 
-                                            variant="outlined"
-                                            color="secondary"
+                            }}
+                          >
+                            Comenzar Curso
+                          </Button>
+                          <Button 
+                            variant="outlined"
+                            color="secondary"
                             startIcon={<AddCircleIcon />}
                             onClick={() => handleSeleccionarCurso(curso)}
                             sx={{
@@ -490,7 +492,7 @@ const ContenidoPorGrado = () => {
                             variant="outlined"
                             startIcon={<AssignmentIcon />}
                             onClick={() => handleSeleccionarActividades(curso)}
-                                            sx={{
+                            sx={{
                               borderRadius: "25px",
                               padding: "10px 24px",
                               textTransform: "none",
@@ -501,16 +503,16 @@ const ContenidoPorGrado = () => {
                             }}
                           >
                             Seleccionar Actividades
-                                        </Button>
-                                    </Box>
+                          </Button>
+                        </Box>
                       </AccordionDetails>
                     </Accordion>
                   ))}
-                                </CardContent>
-                            </Card>
-                    </Grid>
-                ))}
+                </CardContent>
+              </Card>
             </Grid>
+          ))}
+        </Grid>
     )
   }
 
@@ -567,7 +569,7 @@ const ContenidoPorGrado = () => {
             <IconButton aria-label="close" onClick={handleCloseDialog}>
               <CloseIcon />
             </IconButton>
-            </Box>
+          </Box>
         </DialogTitle>
         <DialogContent dividers>
           {cursoSeleccionado && <SeleccionActividades cursoId={cursoSeleccionado._id} onClose={handleCloseDialog} />}
@@ -585,7 +587,7 @@ const ContenidoPorGrado = () => {
           {error || mensaje}
         </Alert>
       </Snackbar>
-        </Container>
+    </Container>
   )
 }
 

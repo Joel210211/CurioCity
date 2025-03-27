@@ -24,7 +24,7 @@ import "../styles/Curso.css"
 
 const Curso = () => {
   const { id } = useParams()
-  const { obtenerCurso, loading: progressLoading } = useProgress()
+  const { obtenerCurso, seleccionarCurso, loading: progressLoading } = useProgress()
   const [curso, setCurso] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -107,6 +107,16 @@ const Curso = () => {
     )
   }
 
+  const handleSeleccionarCurso = async () => {
+    try {
+      await seleccionarCurso(curso._id)
+      alert(`¡Has seleccionado el curso: ${curso.titulo}!`)
+    } catch (error) {
+      console.error("Error al seleccionar curso:", error)
+      alert("Error al seleccionar el curso.")
+    }
+  }
+
   return (
     <Container className="curso-container">
       <Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb" sx={{ mb: 3, mt: 2 }}>
@@ -127,6 +137,13 @@ const Curso = () => {
           <Typography variant="body1" className="curso-description">
             {curso.descripcion}
           </Typography>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={handleSeleccionarCurso}
+          >
+            Seleccionar Curso
+          </Button>
         </Box>
       </Paper>
 

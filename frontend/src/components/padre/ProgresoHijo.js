@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from "react"
 import {
   Box,
@@ -17,6 +19,7 @@ import {
   Chip,
 } from "@mui/material"
 import { useAuth } from "../../context/AuthContext"
+import { useProgress } from "../../context/ProgressContext"
 import CheckCircleIcon from "@mui/icons-material/CheckCircle"
 import ScheduleIcon from "@mui/icons-material/Schedule"
 import StarIcon from "@mui/icons-material/Star"
@@ -24,10 +27,10 @@ import axios from "axios"
 
 const ProgresoHijo = () => {
   const { usuario } = useAuth()
+  const { obtenerProgresoEstudiante, obtenerActividadesCurso } = useProgress()
   const [hijo, setHijo] = useState(null)
-  const [progreso, setProgreso] = useState([])
-  // const [cursos, setCursos] = useState([])
-  const [calificaciones, setCalificaciones] = useState([])
+  const [cursos, setCursos] = useState([])
+  const [actividades, setActividades] = useState([])
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
 
@@ -37,8 +40,20 @@ const ProgresoHijo = () => {
         setCargando(true)
         setError(null)
 
-        if (!usuario || !usuario.hijosRegistrados) {
-          setError("No hay información de estudiante registrada")
+        // Verificar si hay información de usuario y de hijos
+        if (!usuario) {
+          setError("No hay información de usuario disponible")
+          setCargando(false)
+          return
+        }
+
+        // Verificar si hijosRegistrados es un array o un string
+        if (
+          !usuario.hijosRegistrados ||
+          (Array.isArray(usuario.hijosRegistrados) && usuario.hijosRegistrados.length === 0)
+        ) {
+          setError("No hay estudiantes registrados para este usuario")
+          setCargando(false)
           return
         }
 
@@ -46,35 +61,51 @@ const ProgresoHijo = () => {
         const config = {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            "x-auth-token": token,
           },
         }
 
+        // Determinar el ID o email del hijo
+        const hijoIdentificador = Array.isArray(usuario.hijosRegistrados)
+          ? usuario.hijosRegistrados[0]
+          : usuario.hijosRegistrados
+
+        console.log("Identificador del hijo:", hijoIdentificador)
+
         // Obtener información del hijo
         try {
-          const resHijo = await axios.get(
-            `http://localhost:5000/api/usuarios/email/${usuario.hijosRegistrados}`,
-            config,
-          )
+          // Determinar si es un email o un ID
+          const isEmail = typeof hijoIdentificador === "string" && hijoIdentificador.includes("@")
+
+          let resHijo
+          if (isEmail) {
+            console.log("Buscando hijo por email:", hijoIdentificador)
+            resHijo = await axios.get(`http://localhost:5000/api/usuarios/email/${hijoIdentificador}`, config)
+          } else {
+            console.log("Buscando hijo por ID:", hijoIdentificador)
+            resHijo = await axios.get(`http://localhost:5000/api/usuarios/${hijoIdentificador}`, config)
+          }
+
+          if (!resHijo.data || !resHijo.data._id) {
+            throw new Error("No se pudo obtener la información del estudiante")
+          }
+
           setHijo(resHijo.data)
+          const hijoId = resHijo.data._id
+
+          console.log("ID del hijo obtenido:", hijoId)
 
           // Obtener progreso del hijo
-          const resProgreso = await axios.get(
-            `http://localhost:5000/api/progreso/estudiante/${resHijo.data._id}`,
-            config,
-          )
-          setProgreso(resProgreso.data)
+          const progreso = await obtenerProgresoEstudiante(hijoId)
+          setHijo(progreso)
 
           // Obtener cursos del hijo
           const resCursos = await axios.get(`http://localhost:5000/api/cursos/grado/${resHijo.data.grado}`, config)
           setCursos(resCursos.data)
 
-          // Obtener calificaciones del hijo
-          const resCalificaciones = await axios.get(
-            `http://localhost:5000/api/calificaciones/estudiante/${resHijo.data._id}`,
-            config,
-          )
-          setCalificaciones(resCalificaciones.data)
+          // Obtener actividades del hijo
+          const actividadesDelCurso = await obtenerActividadesCurso(resCursos.data)
+          setActividades(actividadesDelCurso)
         } catch (err) {
           console.error("Error al obtener datos del estudiante:", err)
 
@@ -86,45 +117,26 @@ const ProgresoHijo = () => {
             grado: "3°",
           })
 
-          setProgreso([
-            {
-              _id: "1",
-              curso: { _id: "1", titulo: "Matemáticas 3°" },
-              actividad: "act1",
-              titulo: "Sumas y restas",
-              porcentaje: 75,
-              completada: false,
-            },
-            {
-              _id: "2",
-              curso: { _id: "2", titulo: "Lengua 3°" },
-              actividad: "act2",
-              titulo: "Comprensión lectora",
-              porcentaje: 100,
-              completada: true,
-            },
-          ])
-
           setCursos([
             { _id: "1", titulo: "Matemáticas 3°", materia: "Matemáticas" },
             { _id: "2", titulo: "Lengua 3°", materia: "Lengua" },
             { _id: "3", titulo: "Ciencias 3°", materia: "Ciencias" },
           ])
 
-          setCalificaciones([
+          setActividades([
             {
               _id: "1",
-              curso: { titulo: "Matemáticas 3°" },
-              actividad: "Examen de sumas",
-              calificacion: 8,
-              comentario: "Buen trabajo, pero cuidado con las restas",
+              curso: { _id: "1", titulo: "Matemáticas 3°" },
+              actividad: "Sumas y restas",
+              porcentaje: 75,
+              completada: false,
             },
             {
               _id: "2",
-              curso: { titulo: "Lengua 3°" },
-              actividad: "Dictado",
-              calificacion: 9,
-              comentario: "Excelente ortografía",
+              curso: { _id: "2", titulo: "Lengua 3°" },
+              actividad: "Comprensión lectora",
+              porcentaje: 100,
+              completada: true,
             },
           ])
         }
@@ -137,24 +149,24 @@ const ProgresoHijo = () => {
     }
 
     cargarDatos()
-  }, [usuario])
+  }, [usuario, obtenerProgresoEstudiante, obtenerActividadesCurso])
 
   // Calcular progreso general
   const calcularProgresoGeneral = () => {
-    if (!progreso || progreso.length === 0) return 0
+    if (!actividades || actividades.length === 0) return 0
 
-    const total = progreso.length
-    const completadas = progreso.filter((p) => p.completada).length
+    const total = actividades.length
+    const completadas = actividades.filter((a) => a.completada).length
 
     return Math.round((completadas / total) * 100)
   }
 
   // Calcular promedio de calificaciones
   const calcularPromedio = () => {
-    if (!calificaciones || calificaciones.length === 0) return 0
+    if (!actividades || actividades.length === 0) return 0
 
-    const suma = calificaciones.reduce((acc, cal) => acc + cal.calificacion, 0)
-    return (suma / calificaciones.length).toFixed(1)
+    const suma = actividades.reduce((acc, a) => acc + a.porcentaje, 0)
+    return (suma / actividades.length).toFixed(1)
   }
 
   if (cargando) {
@@ -229,16 +241,16 @@ const ProgresoHijo = () => {
                   Actividades en Progreso
                 </Typography>
 
-                {progreso.length > 0 ? (
+                {actividades.length > 0 ? (
                   <List>
-                    {progreso.map((item) => (
+                    {actividades.map((item) => (
                       <React.Fragment key={item._id}>
                         <ListItem>
                           <ListItemIcon>
                             {item.completada ? <CheckCircleIcon color="success" /> : <ScheduleIcon color="primary" />}
                           </ListItemIcon>
                           <ListItemText
-                            primary={item.titulo}
+                            primary={item.actividad}
                             secondary={`Curso: ${item.curso.titulo} | Progreso: ${item.porcentaje}%`}
                           />
                           <Chip
@@ -267,31 +279,31 @@ const ProgresoHijo = () => {
           Calificaciones Recientes
         </Typography>
 
-        {calificaciones.length > 0 ? (
+        {actividades.length > 0 ? (
           <List>
-            {calificaciones.map((cal) => (
-              <React.Fragment key={cal._id}>
+            {actividades.map((a) => (
+              <React.Fragment key={a._id}>
                 <ListItem>
                   <ListItemIcon>
-                    <StarIcon color={cal.calificacion >= 7 ? "success" : "warning"} />
+                    <StarIcon color={a.porcentaje >= 75 ? "success" : "warning"} />
                   </ListItemIcon>
                   <ListItemText
-                    primary={cal.actividad}
+                    primary={a.actividad}
                     secondary={
                       <>
                         <Typography component="span" variant="body2" color="textPrimary">
-                          Curso: {cal.curso.titulo}
+                          Curso: {a.curso.titulo}
                         </Typography>
                         <br />
                         <Typography component="span" variant="body2" color="textSecondary">
-                          {cal.comentario}
+                          {a.completada ? "Completada" : "En progreso"}
                         </Typography>
                       </>
                     }
                   />
                   <Chip
-                    label={cal.calificacion}
-                    color={cal.calificacion >= 7 ? "success" : "warning"}
+                    label={a.porcentaje}
+                    color={a.porcentaje >= 75 ? "success" : "warning"}
                     sx={{ fontWeight: "bold" }}
                   />
                 </ListItem>
